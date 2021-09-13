@@ -137,6 +137,33 @@
           </p>
         </ion-col>
       </ion-row>
+  
+      <ion-row *ngIf= "product_price_afterDiscount*1 /100*1<699 || product_price_afterDiscount*1 /100*1 == 699">
+        <ion-col size="6">
+          <p>
+            {{'Delivery Charges'|translate}}
+          </p>
+        </ion-col>
+        <ion-col text-right size="6">
+          <p style="color: red;">
+            <span class="woocommerce-Price-currencySymbol">₹</span>{{deliveryCharges*1 /100*1 | number : '1.2-2'}}
+          </p>
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf= "product_price_afterDiscount*1 /100*1>700 || product_price_afterDiscount*1 /100*1 == 700">
+        <ion-col size="6">
+          <p>
+            {{'Delivery Charges'|translate}}
+          </p>
+        </ion-col>
+        <ion-col text-right size="6">
+          <p style="color: green;">
+            FREE
+          </p>
+        </ion-col>
+      </ion-row>
+
       <ion-row>
         <ion-col size="6">
           <p>
@@ -148,7 +175,7 @@
         <ion-col text-right size="6">
           <p>
             <b>
-              <span class="woocommerce-Price-currencySymbol">₹</span>{{product_price_afterDiscount*1 /100*1 | number : '1.2-2'}}
+              <span class="woocommerce-Price-currencySymbol">₹</span>{{product_price_afterDeliveryChargeApply*1 /100*1 | number : '1.2-2'}}
             </b>
           </p>
         </ion-col>
