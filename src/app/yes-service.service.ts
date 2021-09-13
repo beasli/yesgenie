@@ -65,7 +65,7 @@ const productbycat  = 'https://www.yesgenie.com/app/registration/productbycat';
 
   proquantity: any;
 
-
+  public shippingCharge : any;
 
   public recentViewedProducts = new Array();
 
@@ -78,7 +78,6 @@ const productbycat  = 'https://www.yesgenie.com/app/registration/productbycat';
       if (val != null) this.wishListProducts = val;
       // console.log(val);
     });
-
 
     storage.get('recentViewedProducts').then((val) => {
       if (val != null) this.recentViewedProducts = val;
