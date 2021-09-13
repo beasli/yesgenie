@@ -1,0 +1,243 @@
+<!-- skeleton text until data not loaded -->
+<!-- <div>
+  <ion-card class="skeleton-card">
+    <ion-skeleton-text animated>
+    </ion-skeleton-text>
+    <p>
+      <ion-skeleton-text animated>
+      </ion-skeleton-text>
+    </p>
+    <p>
+      <ion-skeleton-text animated class="skeleton-para">
+      </ion-skeleton-text>
+    </p>
+  </ion-card>
+</div> -->
+
+<div>
+  <ion-card *ngIf="type=='normal' || type=='wishList'">
+    <!-- <div class="sale-featured">
+      <div *ngIf="p.sale==true" class="sale">SALE</div>
+      <div *ngIf="p.featured==true" class="featured">FEATURED</div>
+    </div> -->
+    <!-- <img src="assets/template-themes/becrux/new-badge.svg" /> -->
+    <!-- <img src="{{p.img}}" (click)="goToProductDetail()" /> -->
+    <img src="https://www.yesgenie.com/uploads/images/{{p.image_small}}" (click)="goToProductDetail(p.product_id, p.subcategory_id, p.third_category_id, p.category_id, p.title)" />
+    <p>{{p.title}}</p>
+    <ion-grid class="ion-no-padding">
+
+
+
+      <!-- <ion-grid class="product-detail-header ion-no-padding" *ngIf="p.product_pricing == 'variable'">
+        <ion-row *ngFor="let v of ProductsVariations">
+          <ion-col class="coloption" size="12">{{v.label}}</ion-col>
+          <ion-col size="5">
+              <ion-select [compareWith]="compareWith" value={{MyDefaultYearIdValue}} class="select-option" placeholder="Select" (ionChange)="addtocartvariation($event.detail.value, v.id, p.product_id)">
+                <ion-select-option *ngFor="let q of provar" value={{q.option_text}}>{{q.option_text}}</ion-select-option>
+              </ion-select>
+           </ion-col>
+        </ion-row>
+      </ion-grid> -->
+
+      
+
+
+      <ion-row class="ion-no-padding" *ngIf="p.product_pricing == 'simple'">
+        <ion-col size="10" class="ion-no-padding" *ngIf="p.sale_price != 0">
+          <p><del style="color: #021841;"><span style="color: #021841;" class="woocommerce-Price-currencySymbol">₹</span>{{p.price*1 /100*1}}</del> <span><span class="woocommerce-Price-currencySymbol">₹</span>{{p.sale_price*1 /100*1}}</span></p>
+        </ion-col>
+
+        <ion-col size="10" class="ion-no-padding" *ngIf="p.sale_price == 0">
+          <p><span class="woocommerce-Price-currencySymbol">₹</span>{{p.price*1 /100*1}}</p>
+        </ion-col>
+        <!-- <ion-col size="5" no-padding>
+          <p></p>
+        </ion-col> -->
+        <ion-col size="2" class="ion-no-padding">
+          <ion-icon class="icon" (click)="clickWishList()" *ngIf="isLiked==0" name="heart-empty"></ion-icon>
+          <ion-icon class="icon" (click)="clickWishList()" *ngIf="isLiked!=0" name="heart"></ion-icon>
+        </ion-col>
+        
+        <p *ngIf="p.sale_price != 0" class="saved-sale" style="color: red;">You Save: <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">₹</span>{{ ConvertToInt(p.price*1 /100*1 - p.sale_price*1 /100*1) }}</span></p>
+
+        
+      </ion-row>
+
+
+
+      <ion-row class="ion-no-padding" *ngIf="p.product_pricing == 'variable'">
+        <ion-col size="10" class="ion-no-padding" *ngIf="provarprice?.sale_price != 0 && provarprice?.outofstock != 'Out of Stock'">
+          <p><del style="color: #021841;"><span style="color: #021841;" class="woocommerce-Price-currencySymbol">₹</span>{{provarprice?.price*1 /100*1}}</del> <span> <span class="woocommerce-Price-currencySymbol">₹</span>{{provarprice?.sale_price*1 /100*1}} </span></p>
+        </ion-col>
+
+        <ion-col size="10" class="ion-no-padding" *ngIf="provarprice?.sale_price == 0 && provarprice?.outofstock != 'Out of Stock'">
+          <p><span class="woocommerce-Price-currencySymbol">₹</span>{{provarprice?.price*1 /100*1}}</p>
+        </ion-col>
+
+        <ion-col size="10" class="ion-no-padding" *ngIf="provarprice?.outofstock == 'Out of Stock'">
+          <p style="color: red; font-size: 15px;">Out of Stock</p>
+        </ion-col>
+
+        <!-- <ion-col size="5" no-padding>
+          <p></p>
+        </ion-col> -->
+        <ion-col size="2" class="ion-no-padding">
+          <ion-icon class="icon" (click)="clickWishList()" *ngIf="isLiked==0" name="heart-empty"></ion-icon>
+          <ion-icon class="icon" (click)="clickWishList()" *ngIf="isLiked!=0" name="heart"></ion-icon>
+        </ion-col>
+        
+        <p *ngIf="provarprice?.sale_price != 0" class="saved-sale" style="color: red;">You Save: <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">₹</span>{{ ConvertToInt(provarprice?.price*1 /100*1 - provarprice?.sale_price*1 /100*1) }}</span></p>
+
+
+      </ion-row>
+
+
+      <!-- <ion-grid class="product-detail-header ion-no-padding">
+
+            <ion-row align-items-center>
+              <ion-col class="coloption" size="12">Quantity</ion-col>
+    
+              <ion-col class="qty-vlue ion-no-padding" size="3">
+                <ion-button style="background: #021841;margin-left: 4px;" (click)="minusQuantity(product_quantity)" size="small" fill="outline">
+                  <ion-icon class="icon-btn" name="remove"></ion-icon>
+                </ion-button>
+              </ion-col>
+    
+              <ion-col class="qty-vlue ion-no-padding" size="3">
+                <ion-input style="text-align: center;" [(ngModel)]="product_quantity" class="dgi" type="number" name="q" readonly>
+                </ion-input>
+              </ion-col>
+    
+              <ion-col class="qty-vlue ion-no-padding" size="3">
+                <ion-button style="background: #021841;margin-left: 12px;" (click)="addQuantity(product_quantity)" size="small" fill="outline">
+                  <ion-icon class="icon-btn" name="add"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+        </ion-grid> -->
+
+      <ion-row class="ion-no-padding">
+        <ion-button (click)="goToProductDetail(p.product_id, p.subcategory_id, p.third_category_id, p.category_id, p.title)">View Details
+        </ion-button>
+        <!-- <ion-button color="secondary" (click)="showProductDetail()"
+          *ngIf="config.cartButton==1 && p.stock_status=='instock' && p.type!='simple'">{{'DETAILS'|translate}}
+        </ion-button>
+        <ion-button color="secondary" color="danger">
+          {{'OUT OF STOCK'|translate}}
+        </ion-button> -->
+      </ion-row>
+
+    </ion-grid>
+  </ion-card>
+
+  <!-- //====================================  list view for shop page ==================================== -->
+  <!-- <ion-item lines="none" *ngIf="type=='list'" class="animated fadeIn">
+    <ion-thumbnail slot="start">
+      <ion-img class="badge-img" src="assets/template-themes/becrux/badge_new.png"></ion-img>
+      <img class="img-list" src="assets/template-themes/becrux/images/item-images/1.png" />
+    </ion-thumbnail>
+    <ion-label>
+      <p>{{p.name}}</p>
+      <p><del>26.00 $</del>-<b>22.00$</b></p>
+    </ion-label>
+    <ion-icon class="icon" (click)="onIconClick(p)" *ngIf="!p.fav" name="heart-empty"></ion-icon>
+    <ion-icon class="icon" (click)="onIconClick(p)" *ngIf="p.fav" name="heart"></ion-icon>
+    <div class="sale-featured">
+      <div [ngStyle]="{'background':itemColor}" *ngIf="p.sale==true" class="sale">SALE</div>
+      <div [ngStyle]="{'background':itemColor}" *ngIf="p.featured==true" class="featured">FEATURED</div>
+    </div>
+  </ion-item> -->
+
+
+
+  <ion-item lines="none" *ngIf="type=='list'" class="animated fadeIn">
+    <ion-thumbnail slot="start" (click)="goToProductDetail(p.product_id, p.category_id, p.third_category_id, p.category_id, p.title)">
+         <!-- <ion-img class="badge-img" src="assets/template-themes/becrux/badge_new.png"></ion-img> -->
+        <img src="https://www.yesgenie.com/uploads/images/{{p.image_small}}" />
+
+       <!-- <img src="{{p.img}}"> -->
+    </ion-thumbnail>
+    <ion-label>
+        <p (click)="goToProductDetail(p.product_id, p.category_id, p.third_category_id, p.category_id, p.title)">{{p.title}}</p>
+
+
+        
+
+        <div *ngIf="p.product_pricing == 'simple'" (click)="goToProductDetail(p.product_id, p.category_id, p.third_category_id, p.category_id, p.title)">
+          <div *ngIf="p.sale_price != 0">
+        <p class="name-para"><del style="color: #ccc;"><span class="woocommerce-Price-currencySymbol">₹</span>{{p.price*1 /100*1}}</del></p>
+        <p class="name-para"><span class="woocommerce-Price-currencySymbol">₹</span>{{p.sale_price*1 /100*1}}</p>
+        <p *ngIf="p.sale_price != 0" class="saved-sale" style="color: red;">You Save: <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">₹</span>{{ ConvertToInt(p.price*1 /100*1 - p.sale_price*1 /100*1) }}</span></p>
+    </div>
+
+    <div *ngIf="p.sale_price == 0">
+        <p class="name-para"><span class="woocommerce-Price-currencySymbol">₹</span>{{p.price*1 /100*1}}</p>
+    </div>
+  </div>
+
+
+  <div *ngIf="p.product_pricing == 'variable' && p.product_id == v.product_id" (click)="goToProductDetail(p.product_id, p.category_id, p.third_category_id, p.category_id, p.title)">
+    <div *ngIf="v.sale_price != 0">
+  <p class="name-para"><del style="color: #ccc;"><span class="woocommerce-Price-currencySymbol">₹</span>{{v.price*1 /100*1}}</del></p>
+  <p class="name-para"><span class="woocommerce-Price-currencySymbol">₹</span>{{v.sale_price*1 /100*1}}</p>
+  <p *ngIf="v.sale_price != 0" class="saved-sale" style="color: red;">You Save: <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">₹</span>{{ ConvertToInt(v.price*1 /100*1 - v.sale_price*1 /100*1) }}</span></p>
+</div>
+
+<div *ngIf="v.sale_price == 0">
+  <p class="name-para"><span class="woocommerce-Price-currencySymbol">₹</span>{{v.price*1 /100*1}}</p>
+</div>
+</div>
+
+<div *ngIf="p.product_pricing == 'variable'">
+  <ion-row *ngFor="let p of provar">
+    <ion-col class="coloption" size="12">{{p.label}}</ion-col>
+    <ion-col size="10">
+        <ion-select (click)="Variationoption(p.common_id)" class="select-option" placeholder="Select" (ionChange)="addtocartvariation($event.detail.value, p.id, p.product_id)">
+          <div *ngFor="let q of varoption">
+          <ion-select-option value={{q.option_text}}>{{q.option_text}}</ion-select-option>
+        </div>
+        </ion-select>
+     </ion-col>
+  </ion-row>
+</div>
+
+
+  <ion-row align-items-center>
+    <ion-col class="coloption" size="12">Quantity</ion-col>
+
+    <ion-col class="qty-vlue ion-no-padding" size="3">
+      <ion-button style="margin-left: 12px;" (click)="minusQuantity(product_quantity)" size="small" fill="outline">
+        <ion-icon class="icon-btn" name="remove"></ion-icon>
+      </ion-button>
+    </ion-col>
+
+    <ion-col class="qty-vlue ion-no-padding" size="3">
+      <ion-input style="text-align: center;" [(ngModel)]="product_quantity" class="dgi" type="number" name="q">
+      </ion-input>
+    </ion-col>
+
+    <ion-col class="qty-vlue ion-no-padding" size="3">
+      <ion-button style="margin-left: 12px;" (click)="addQuantity(product_quantity)" size="small" fill="outline">
+        <ion-icon class="icon-btn" name="add"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+  
+
+<ion-row>
+  <ion-col>
+    <ion-button (click)="addToCartProduct(p)" [disabled]="disableCartButton">ADD TO CART
+    </ion-button>
+  </ion-col>
+</ion-row>
+
+    </ion-label>
+
+    <ion-icon (click)="clickWishList()" *ngIf="isLiked==0" name="heart-empty"></ion-icon>
+    <ion-icon (click)="clickWishList()" *ngIf="isLiked!=0" name="heart"></ion-icon>
+
+     <!-- <div class="sale">SALE</div>
+    <div class="featured">FEATURED</div> -->
+
+    </ion-item>
+</div>

@@ -1,0 +1,87 @@
+<ion-content class="thankyou-content bg">
+    
+
+
+  <div class="header-content">
+      <!-- <div class="LoginLogo">
+          <ion-img src="assets/logo1.png"></ion-img>
+      </div> -->
+    <p style="font-size: 20px; font-family: sans-serif; text-align: center; margin-top: 220px;">Fill the Information Below<p>
+    <h2 style="font-size: 23px; font-family: sans-serif; text-align: center;" class="login_accountp">Login Account</h2>
+  </div>
+
+  <form class="form" (ngSubmit)="login()" #loginForm="ngForm" >
+
+
+<ion-list class="list listp">
+
+    <ion-item class="animated fadeInRight" lines="none">
+      <img class="login_iconp" style="width: 35px;" slot="start" src="assets/icons/user-name.png" />
+      <ion-input [(ngModel)]="formData.email" name="email"  placeholder="Username or E-mail" type="text" required></ion-input>
+    </ion-item>
+    <!-- <div *ngIf="userLogin.controls.username.hasError('required')  && userLogin.controls.username.touched">
+      <p class="error-text">Username is required</p>
+  </div> -->
+
+    <ion-item class="animated fadeInRight" lines="none">
+      <img class="login_iconp" style="width: 35px;" slot="start" src="assets/icons/password.png" />
+      <ion-input placeholder="Password" type="text"  id="password" name="password" [(ngModel)]="formData.password" [type]="passwordType" clearOnEdit="false" required></ion-input>
+      <ion-icon item-end [name]="passwordIcon" class="passwordIcon" (click)='hideShowPassword()'></ion-icon>
+    </ion-item>
+    <!-- <div *ngIf="userLogin.controls.password.hasError('required')  && userLogin.controls.password.touched">
+      <p class="error-text">Password is required</p>
+  </div> -->
+
+</ion-list>
+
+
+<div text-center style="color: #165992; font-size: 17px; font-family: sans-serif; text-align: center;" class="forgot_passwordp"> 
+  <p (click)="forgot()">In case you forget password?</p>
+</div>
+
+<div class="btn-div">
+    <ion-button class="btn" type="submit" color="primary" >Login</ion-button>
+  </div>
+
+</form>
+
+<div style="color: red; text-align: center;">
+  <ion-button text-center fill="clear" (click)="goToHomeEcom()">Skip Login</ion-button>
+</div>
+
+
+<ion-grid class="grid-or" style="margin-bottom: -25px;">
+  <ion-row>
+    <ion-col class="ion-align-self-center">
+      <div></div>
+    </ion-col>
+    <ion-col size="1">
+      <p>Or</p>
+    </ion-col>
+    <ion-col class="ion-align-self-center">
+      <div></div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+<ion-grid class="grid-icons" style="margin-bottom: 12px; margin-top: 15px">
+  <ion-row>
+    <ion-col (click)="fbLoginuser()"> 
+      <ion-avatar class="animated fadeIn">
+        <ion-img src="assets/facebook.png"></ion-img>
+      </ion-avatar>
+    </ion-col>
+  
+    <ion-col (click)="Googlelogin()">
+      <ion-avatar class="animated fadeIn">
+        <ion-img src="assets/google.png"></ion-img>
+      </ion-avatar>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+<p class="para-member">Don't have an account?</p>
+
+<div style="color: red; text-align: center;">
+  <ion-button text-center fill="clear" (click)="goToSignUp()">Register</ion-button>
+</div>
+</ion-content>

@@ -1,0 +1,253 @@
+<ion-header class="products-header">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button fill="clear" routerLink="/tabs/bs-categories" routerDirection="backward">
+                <ion-icon src="assets/back.svg"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+
+        <ion-title class="ecom-title"> {{SubCatName}} </ion-title>
+
+        <ion-buttons slot="end">
+
+            <ion-button fill="clear" (click)="opensearch()">
+                <ion-icon slot="icon-only" name="search"></ion-icon>
+              </ion-button>
+
+            <ion-button fill="clear" (click)="goToCartPage()">
+                <ion-icon name="cart"></ion-icon>
+                <ion-badge>{{services.cartTotalItems()}}</ion-badge>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+
+    <ion-toolbar class="segmentToolbar" *ngIf="proid != null">
+
+        <ion-segment [(ngModel)]="scrollSegments" scrollable>
+            <ion-segment-button *ngFor="let pro of responseData" (click)="product(pro.category_id)">{{pro.name}}</ion-segment-button>
+            <!-- <ion-segment-button value="tops">Tops </ion-segment-button>
+            <ion-segment-button value="bottoms">Bottoms</ion-segment-button>
+            <ion-segment-button value="Shirtss"> Shirts</ion-segment-button>
+            <ion-segment-button value="winter">Winter Wear</ion-segment-button>
+            <ion-segment-button value="shoes">Shoes</ion-segment-button>
+            <ion-segment-button value="watches">Watches</ion-segment-button> -->
+            <!-- <ion-slides [options]="sliderConfig">
+                
+                    <ion-slide *ngFor="let pro of responseData" (click)="product(pro.category_id)">
+                            {{pro.name}}
+                    </ion-slide>
+                  </ion-slides> -->
+        </ion-segment>
+
+    </ion-toolbar>
+</ion-header>
+
+<ion-content (pinch)="pinchEvent($event)" id="productContent" class="products-content">
+    <!-- scrollable segment divisions -->
+            <ion-grid *ngIf="productView=='grid'" class="animated fadeIn fast ion-no-padding">
+                <ion-row class="ion-no-padding">
+                    <ion-col *ngFor="let p of ProductResponse" size="6" class="ion-no-padding">
+                        <app-product [data]="p" [data1]="productresvar"  [type]="'normal'"></app-product>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+
+
+            <ion-list class="list-view" *ngIf="productView=='list'" class="animated fadeIn fast">
+                <span *ngFor="let p of ProductResponse">
+                  <app-product [data]="p" [data1]="productresvar" [type]="'list'"></app-product>
+                </span>
+            </ion-list>
+
+            <!-- <ion-list class="list-view" *ngIf="productView=='list'" class="animated fadeIn fast">
+                <ion-item style="height: 116px;" *ngFor="let p of ProductResponse" class="list" lines="none" class="animated fadeIn fast">
+                    <ion-thumbnail slot="start" (click)="goToProductDetail(p.product_id, p.category_id, Id, p.title)">
+                         <ion-img class="badge-img" src="assets/template-themes/becrux/badge_new.png"></ion-img>
+                        <img src="https://www.medgroc.com/uploads/images/{{p.image_small}}" />
+
+                        <!-- <img src="{{p.img}}">
+                    </ion-thumbnail>
+                    <ion-label (click)="goToProductDetail(p.product_id, p.category_id, Id, p.title)">
+                        <p>{{p.title}}</p>
+
+                          <div *ngIf="p.sale_price != 0">
+                        <p class="name-para"><del style="color: #ccc;">{{p.price*1 /100*1}} Rs</del></p>
+                        <p class="name-para">{{p.sale_price*1 /100*1}} Rs</p>
+                    </div>
+
+                    <div *ngIf="p.sale_price == 0">
+                        <p class="name-para">{{p.price*1 /100*1}} Rs</p>
+                    </div>
+
+                    </ion-label>
+
+                    <ion-icon class="theme-icon" (click)="onIconClick(p)" name="heart-empty"></ion-icon>
+                    <ion-icon class="theme-icon" (click)="onIconClick(p)" *ngIf="p.fav" name="heart"></ion-icon>
+                    <!-- <div class="sale">SALE</div>
+                    <div class="featured">FEATURED</div>
+                </ion-item>
+            </ion-list> -->
+
+            <ion-col *ngIf="ProductResponse == '' || null" size="12" class="animated fadeIn fast">
+                <h6 text-center *ngIf="MessShow == '' || null">Please Wait...</h6>
+                <h6 text-center>{{MessShow}}</h6>
+            </ion-col>
+
+
+            <!-- <ion-grid class="ion-no-padding grid-empty" *ngIf="services1.cartProducts.length==0">
+    <ion-row class="ion-no-padding">
+      <ion-col size="12" class="ion-no-padding">
+        <ion-icon name="basket"></ion-icon>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-no-padding">
+      <ion-col size="12" class="ion-no-padding">
+        <h4>{{'Your cart is empty'|translate}}</h4>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-no-padding">
+      <ion-col size="12" class="ion-no-padding">
+        <h5>{{'continue shopping'|translate}}</h5>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-no-padding">
+      <ion-col size="12" class="ion-no-padding">
+        <ion-button color="secondary" (click)="openProductsPage()">{{'Explore'|translate}}</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid> -->
+
+
+    <!-- infinite scroll -->
+    <!-- <ion-infinite-scroll #infinite (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll> -->
+</ion-content>
+
+<ion-footer class="products-footer">
+    <ion-toolbar color="light">
+        <!-- <ion-buttons left>
+            <small>{{"Sort Products"|translate}}
+            </small>
+        </ion-buttons>
+        <ion-button size="medium" fill="clear" class="as-btn" (click)="resetFilters()">
+            {{sortOrder| translate}}
+            <ion-icon name="arrow-up"></ion-icon>
+        </ion-button> -->
+        <ion-buttons slot="end">
+            <!-- <ion-button (click)="changeLayout()">
+                <ion-icon name="ios-list" [name]="productView=='grid'? 'list' : 'apps'"></ion-icon>
+            </ion-button> -->
+            <ion-button (click)="refresh()">
+                <ion-icon name="refresh"></ion-icon>
+            </ion-button>
+            <ion-menu-button (click)="openRightMenu()">
+                <ion-icon name="funnel"></ion-icon>
+            </ion-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-footer>
+
+<!--  For Shop Filter Side Menu  -->
+<ion-menu menuId="bbShop" contentId="productContent" side="end">
+    <ion-header>
+        <ion-menu-toggle auto-hide="false" no-padding>
+            <ion-toolbar class="menu-toolbar">
+                <ion-buttons slot="start">
+                    <ion-button fill="clear">
+                        <ion-icon slot="icon-only" class="usd-icon" name="close"></ion-icon>
+                    </ion-button>
+                </ion-buttons>
+                <ion-title>Filter</ion-title>
+            </ion-toolbar>
+        </ion-menu-toggle>
+    </ion-header>
+    <ion-content>
+        <h2 class="price-heading">Filter by Price</h2>
+
+        <!-- <ion-item>
+            <ion-range id="dual-range" [(ngModel)]="structure" (ionBlur)="FilterProduct()" dualKnobs="true" pin="true" [min]="minAmount"
+            [max]="maxAmount">
+                <ion-label slot="start">{{structure.lower*1 /100*1}}</ion-label>
+                <ion-label slot="end">{{structure.upper*1 /100*1}}</ion-label>
+            </ion-range>
+        </ion-item> -->
+
+        <ion-row style="margin-left: 5px;">
+            <ion-col>
+            <ion-item class="animated fadeInRight" lines="none" style="border: 1px solid; width: 80%; height: 85%;">
+            <ion-input [(ngModel)]="minPrice" placeholder="Min" type="number" required></ion-input>
+            </ion-item>
+            </ion-col>
+ 
+             <ion-col>
+             <ion-item class="animated fadeInRight" lines="none" style="border: 1px solid; width: 80%; height: 85%;">
+                 <ion-input [(ngModel)]="maxPrice" placeholder="Max" type="number" required></ion-input>
+               </ion-item>
+             </ion-col>
+ 
+             <ion-col>
+                 <ion-button (click)="FilterProduct()"><ion-icon name="ios-arrow-forward"></ion-icon></ion-button>
+             </ion-col>
+         </ion-row>
+
+        <ion-card-header>
+            <ion-card-title color="primary">
+                Filter by Categories
+            </ion-card-title>
+          </ion-card-header>
+        
+          <ion-card class="CatFilter">
+      
+          <ion-item (click)="toggleMenu()" *ngFor="let pro of responseData" >
+              <ion-label (click)="product(pro.category_id)">{{pro.name}}</ion-label>
+            </ion-item>
+          </ion-card>
+
+
+          <ion-card class="CatFilter" *ngFor="let f of customfieldoption">
+            <ion-radio-group>
+                <!-- <h2 class="price-heading">{{f.name}}</h2> -->
+            <ion-item *ngFor="let lf of f" (click)="toggleMenu()">
+                <ion-radio (ionSelect)="Getcustomfieldproduct(lf.id)" value={{lf.id}} slot="start"></ion-radio>
+                <p>{{lf.field_option}}</p>
+            </ion-item>
+        </ion-radio-group>
+            </ion-card>
+
+
+      <!--  <ion-item lines="none">
+            <ion-checkbox slot="start"></ion-checkbox>
+            <p>Featured</p>
+        </ion-item>
+        <h2 class="price-heading">By Color</h2>
+        <ion-item>
+            <ion-checkbox slot="start"></ion-checkbox>
+            <p>Red</p>
+        </ion-item>
+        <ion-item lines="none">
+            <ion-checkbox slot="start"></ion-checkbox>
+            <p>Black</p>
+        </ion-item>
+        <h2 class="price-heading">By Size</h2>
+        <ion-item>
+            <ion-checkbox slot="start"></ion-checkbox>
+            <p>Small</p>
+        </ion-item>
+        <ion-item>
+            <ion-checkbox slot="start"></ion-checkbox>
+            <p>Medium</p>
+        </ion-item>
+        <ion-item>
+            <ion-checkbox slot="start"></ion-checkbox>
+            <p>Large</p>
+        </ion-item>
+        <ion-item lines="none">
+            <ion-checkbox slot="start"></ion-checkbox>
+            <p>Extra large</p>
+        </ion-item> -->
+    </ion-content>
+</ion-menu>

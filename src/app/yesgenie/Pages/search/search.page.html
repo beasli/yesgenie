@@ -1,0 +1,79 @@
+<ion-header>
+  <ion-toolbar>
+    
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title class="ecom-title">
+      {{'Search'| translate }}
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="goToCartPage()">
+        <ion-icon name="cart"></ion-icon>
+        <ion-badge>{{services.cartTotalItems()}}</ion-badge>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content (pinch)="pinchEvent($event)" class="content products-content">
+
+  <form [formGroup]="searchproduct">
+  <!-- <ion-col size="4">                  
+    <ion-select class="select-option" formControlName="search_type">
+      <ion-select-option value="product"> Product </ion-select-option>
+      <ion-select-option value="member"> Member </ion-select-option>
+    </ion-select>
+  </ion-col> -->
+
+    <ion-searchbar type="text"  name="search" placeholder="Search" debounce="500" formControlName="input_value" (ionChange)="Searchformemberandproduct($event)">
+    </ion-searchbar>
+</form>
+
+<div>
+  <ion-grid no-padding class="animated fadeIn fast">
+    <ion-row no-padding>
+        <ion-col *ngFor="let p of responseData" size="6" no-padding>
+            <app-product (click)="dismiss()" [data]="p" [type]="'normal'"></app-product>
+        </ion-col>
+    </ion-row>
+</ion-grid>
+</div>
+
+<!-- <div *ngIf="searchtype == 'member'">
+<ion-card *ngFor="let item of responseData; let i index">
+      
+  <ion-avatar style="margin: auto;">
+    <ion-img src={{item.avatar}}></ion-img>
+  </ion-avatar>
+
+   <h2 style="text-align: center;">{{item.username}}</h2>
+   <p style="text-align: center;">{{item.email}}</p>
+
+<!-- <ion-row class="ion-activated">
+<ion-button class="drbutton" (click)="onClickDraftById(item.id)">Edit</ion-button>
+</ion-row>
+
+</ion-card>
+</div> -->
+
+
+
+  <!-- <ion-list>
+    <ion-item *ngFor="let product of categories" routerLink="/bs-product-detail" routerDirection="forward">
+      <ion-avatar slot="start" class="animated flipInX delay-900ms">
+        <img src="{{product.img}}" />
+      </ion-avatar>
+      <ion-label padding>
+        <ion-text>
+          <h2>{{product.name|translate}}</h2>
+          <p>{{product.count}} {{'Products'| translate }}</p>
+        </ion-text>
+      </ion-label>
+    </ion-item>
+  </ion-list> -->
+
+</ion-content>

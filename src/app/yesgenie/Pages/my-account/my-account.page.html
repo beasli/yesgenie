@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ecom-title"> 
+      {{'Edit Profile'| translate }}
+    </ion-title>
+    <!-- <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="goToSearchPage()">
+        <ion-icon slot="icon-only" name="search"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" (click)="goToCartPage()">
+        <ion-icon class="cart-badge" name="cart"></ion-icon>
+        <ion-badge color="secondary">0</ion-badge>
+      </ion-button>
+    </ion-buttons> -->
+  </ion-toolbar>
+</ion-header>
+<ion-content (pinch)="pinchEvent($event)" class="content">
+  <form class="form" [formGroup]="updatePro">
+
+    <ion-item>
+        <ion-label position="floating">{{'User Name'|translate}}</ion-label>
+      <ion-input formControlName="username" type="text" value={{responseData?.username}}></ion-input>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label position="floating">{{'Mobile'|translate}}</ion-label>
+    <ion-input formControlName="phone_number" type="text" value={{responseData?.phone_number}}></ion-input>
+   </ion-item>
+
+
+    <ion-item>
+    <ion-label position="floating">{{'Email'|translate}}</ion-label>
+    <ion-input readonly type="text"  value={{responseData?.email}} ></ion-input>
+    </ion-item>
+  
+  <!-- <ion-item>
+    <ion-label position="floating">{{'Password'|translate}}</ion-label>
+  <ion-input type="text"[(ngModel)]="myAccountData.password" name="customers_lastname"
+    required></ion-input>
+</ion-item>
+
+    <ion-item>
+        <ion-label position="floating">{{'New Password'|translate}}</ion-label>
+      <ion-input type="password" [(ngModel)]="password" name="password"></ion-input>
+    </ion-item> -->
+    <ion-button style="margin-top: 20px;" expand="full" type="submit" [disabled]="!updatePro.valid" (click)="Updateprofile()">{{ 'UPDATE' | translate }}
+    </ion-button>
+
+  </form>
+</ion-content>

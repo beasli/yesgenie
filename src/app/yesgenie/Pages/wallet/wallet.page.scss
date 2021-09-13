@@ -1,0 +1,39 @@
+.center {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    font-weight: 1000;
+  }
+
+  .cardcontent {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    color: black;
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+
+  .cardwallet {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    color: black;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .cardcontent2{
+    border-top: #000 solid;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    color: black;
+    font-size: 15px;
+    font-weight: 500;
+  }

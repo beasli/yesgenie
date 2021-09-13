@@ -1,0 +1,156 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" routerLink="/multiple-shipping-address">
+        <ion-icon slot="icon-only" src="assets/back.svg"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ecom-title">Add Shipping Address</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="goToCartPage()">
+        <ion-icon name="cart"></ion-icon>
+        <ion-badge>{{services.cartTotalItems()}}</ion-badge>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content (pinch)="pinchEvent($event)" class="content">
+  <!-- For Shipping Address -->
+  <!-- <p>
+    {{'Shipping Address'| translate }}
+  </p> -->
+
+  <form class="form" [formGroup]="updatePro">
+
+    <ion-item>
+      <ion-label position="floating">Address Location</ion-label>
+      <ion-input formControlName="address_detail" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Name</ion-label>
+      <ion-input  formControlName="shipping_first_name" value={{responseDatainfo?.username}} type="text"></ion-input>
+    </ion-item>
+
+    <!-- <ion-item>
+      <ion-label position="floating">{{'Last Name'|translate}}</ion-label>
+      <ion-input formControlName="shipping_last_name" value="" type="text" name="shipping_last_name"></ion-input>
+    </ion-item> -->
+
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input formControlName="shipping_email" value={{responseDatainfo?.email}}  type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Phone Number</ion-label>
+      <ion-input formControlName="shipping_phone_number" value={{responseDatainfo?.phone_number}} type="Number"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Address 1</ion-label>
+      <ion-input formControlName="shipping_address_1" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Address 2 (Optional)</ion-label>
+      <ion-input formControlName="shipping_address_2" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">{{'Country'|translate}}</ion-label>
+      <!-- <ion-input formControlName="shipping_country_id" type="text" name="shipping_country_id" value="India" readonly></ion-input> -->
+      <ion-select formControlName="shipping_country_id" class="seloption ionselectborder">
+        <ion-select-option value="India">India</ion-select-option>
+       </ion-select> 
+    </ion-item>
+
+
+      <ion-item>
+        <ion-label position="floating">{{'State'|translate}}</ion-label>
+       <!-- <ion-input formControlName="shipping_state" type="text" value={{responseDatainfo?.shipping_state}} ></ion-input> -->
+  
+       <ion-select formControlName="shipping_state"  class="seloption ionselectborder">
+         <ion-select-option value="delhi">Delhi</ion-select-option>
+         <ion-select-option value="haryana">Haryana</ion-select-option>
+         <ion-select-option value="UP">Uttar Pradesh</ion-select-option>
+       </ion-select> 
+          </ion-item>
+
+
+    <ion-item>
+      <ion-label position="floating">Place</ion-label>
+      
+       <ion-input formControlName="shipping_city" type="text"></ion-input>
+
+       </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Zip Code</ion-label>
+      <ion-input formControlName="shipping_zip_code" type="Number" name="shipping_zip_code"></ion-input>
+    </ion-item>
+  </form>
+  <ion-button expand="full" type="submit" [disabled]="!updatePro.valid" (click)="Addnewmultipleshippingaddress()">
+    Save Changes
+  </ion-button>
+
+  <!-- For Billing Address -->
+  <!-- <p>
+    {{'Billing Address'| translate }}
+  </p> -->
+
+  <!-- <form>
+    <ion-item>
+      <ion-label position="floating">{{'First Name'|translate}}</ion-label>
+      <ion-input type="text" name="shipping_firstname" [(ngModel)]="shipping.first_name" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">{{'Last Name'|translate}}</ion-label>
+      <ion-input type="text" name="shipping_lastname" [(ngModel)]="shipping.last_name" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">{{'Compnay'|translate}}</ion-label>
+      <ion-input type="text" name="company" [(ngModel)]="shipping.company" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">{{'Address'|translate}} 1</ion-label>
+      <ion-input type="text" name="address" [(ngModel)]="shipping.address_1" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">{{'Address'|translate}} 2</ion-label>
+      <ion-input type="text" name="address2" [(ngModel)]="shipping.address_2" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">{{'Country'|translate}}</ion-label>
+      <ion-select class="seloption ionselectborder" (ionChange)="getallstate($event.detail.value)">
+        <ion-select-option value="101">India</ion-select-option>
+       </ion-select>
+          </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">{{'State'|translate}}</ion-label>
+      <ion-select class="seloption ionselectborder" (ionChange)="Citiesbystate($event.detail.value)">
+        <ion-select-option *ngFor="let item of responseData" value={{item.id}}>{{item.name}}</ion-select-option>
+       </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">{{'City'|translate}}</ion-label>
+      <ion-select class="seloption ionselectborder">
+        <ion-select-option *ngFor="let item of responseDataCity" value={{item.id}}>{{item.name}}</ion-select-option>
+       </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{'Post code'|translate}}</ion-label>
+      <ion-input type="text" name="shipping_postcode" [(ngModel)]="shipping.postcode" required></ion-input>
+    </ion-item>
+  </form>
+  <ion-button expand="full">
+    {{'Update Billing'|translate}}
+  </ion-button> -->
+</ion-content>

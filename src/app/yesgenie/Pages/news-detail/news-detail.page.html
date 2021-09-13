@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" routerLink="/bs-home" routerDirection="backward">
+        <ion-icon slot="icon-only" src="assets/back.svg"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title no-padding class="ecom-title">Blog Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content (pinch)="pinchEvent($event)" class="content">
+  <!-- <ion-spinner *ngIf="!post.image"></ion-spinner> -->
+  <ion-img src="https://www.yesgenie.com/{{responseData?.image_small}}" class="animated fadeIn"></ion-img>
+  <!-- <ion-img class="img-home-six" src="https://www.yesgenie.com/{{p.image_small}}"></ion-img> -->
+
+
+  <h2>{{responseData?.title}}
+    <br>
+    <small>
+      <ion-icon class="clock" name="clock"></ion-icon>{{responseData?.created_at}}
+    </small>
+  </h2>
+  <p [innerHTML]="responseData?.content">
+  </p>
+  
+</ion-content>

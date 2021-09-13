@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-menu-button slot="start">
+      <ion-icon name="menu"></ion-icon>
+    </ion-menu-button>
+    <ion-title class="ecom-title">
+      All Category
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="opensearch()">
+        <ion-icon slot="icon-only" name="search"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" (click)="goNotification()">
+        <ion-icon name="notifications"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content (pinch)="pinchEvent($event)" class="content" (pinch)="pinchEvent($event)">
+  <ion-item-group *ngFor="let product of responseData">
+    <ion-item-divider lines="none" (click)="onClickDetails(product.category_id, product.name)">
+      <ion-avatar slot="end">
+        <img src="https://www.yesgenie.com/{{product.app_icon}}" />
+      </ion-avatar>
+      <ion-label padding>
+        <ion-text>
+          <h2>{{product.name}}</h2>
+        </ion-text>
+      </ion-label>
+    </ion-item-divider>
+    <ion-item *ngFor="let subProduct of product.products" routerLink="/bs-products" routerDirection="forward">
+      <ion-avatar slot="end">
+        <img src="{{subProduct.img}}" />
+      </ion-avatar>
+      <ion-label padding>
+        <ion-text>
+          <h2>{{subProduct.name|translate}}</h2>
+          <p>{{subProduct.count}} {{'Products'| translate }}</p>
+        </ion-text>
+      </ion-label>
+    </ion-item>
+  </ion-item-group>
+</ion-content>

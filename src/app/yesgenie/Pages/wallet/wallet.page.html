@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+      </ion-buttons>
+    <ion-title>
+      Wallet
+    </ion-title>
+    <!-- <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="goToSearchPage()">
+        <ion-icon slot="icon-only" name="search"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" (click)="goToCartPage()">
+        <ion-icon slot="icon-only" name="notifications"></ion-icon>
+
+      </ion-button>
+    </ion-buttons> -->
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+      
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle class="cardwallet">Wallet</ion-card-subtitle>
+        <ion-card-title class="center">{{responseData?.wallet*1 /100*1}} Rs</ion-card-title>
+      </ion-card-header>
+    
+      <ion-card-content class="cardcontent">
+        Wallet amount can be used at the time of payment.<br>
+        You can use this amount for your next purchase.<br>       
+        Same amount will be deducted from order's total amount.        
+      </ion-card-content>
+
+      <ion-card-content class="cardcontent2">
+        Wallet amount will be added by yesgenie in case of return/cancellation.        
+      </ion-card-content>
+
+    </ion-card>
+    
+
+</ion-content>

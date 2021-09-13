@@ -1,0 +1,263 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="goToProductCat()">
+        <ion-icon slot="icon-only" src="assets/back.svg"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ecom-title">{{ProName}}</ion-title>
+    <ion-buttons slot="end">
+      <!-- <ion-button fill="clear" (click)="opensearch()">
+        <ion-icon slot="icon-only" name="search"></ion-icon>
+      </ion-button> -->
+      
+      <ion-button fill="clear" (click)="goToCart()">
+          <ion-icon name="cart"></ion-icon>
+          <ion-badge>{{services1.cartTotalItems()}}</ion-badge>
+      </ion-button>
+  </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content (pinch)="pinchEvent($event)" class="content">
+  <div class="product-tags-top">
+    <div class="product-tag-new">{{'New'|translate}}</div>
+    <!-- <div class="product-tag-featured">{{'Featured'|translate}}</div> -->
+  </div>
+
+  <div class="icons">
+    <ion-icon name="share" (click)="share()"></ion-icon>
+    <!-- <ion-icon *ngIf="heart" name="heart" (click)="clickWishList()"></ion-icon>
+    <ion-icon *ngIf="!heart" name="heart-empty" (click)="clickWishList()"></ion-icon> -->
+  </div>
+  <ion-slides class="product-slides" pager="true">
+    <ion-slide *ngFor="let img of responseDataImg">
+      <div>
+        <!-- <img src="{{slide.img}}" imageViewer> -->
+        <img src="https://www.yesgenie.com/uploads/images/{{img?.image_big}}" imageViewer>
+
+      </div>
+    </ion-slide>
+  </ion-slides>
+
+  <ion-grid class="product-detail-title ion-no-padding">
+    <ion-row>
+      <!-- <div class="product-tags">
+        <div class="product-tag-off">{{'SALE'|translate}}</div>
+      </div> -->
+      <!-- 2.0 updates -->
+
+      <ion-col class="woo-price-group ion-no-padding" size="12">
+        <!-- <span class="woo-price"></span> -->
+        <!-- <span class="woo-price"><span class="woocommerce-Price-currencySymbol">₹</span>{{responseData?.sale_price*1 /100*1}}</span> -->
+        <div *ngIf="responseData?.product_pricing != 'variable'">
+        <div *ngIf="responseData?.sale_price != 0">
+          <span class="woo-price"><del style="color: #1f699c;"><span class="woocommerce-Price-currencySymbol">₹</span>{{responseData?.price*1 /100*1}}</del></span>
+        <span class="woo-price" style="margin-left: 10px;"><span class="woocommerce-Price-currencySymbol">₹</span>{{responseData?.sale_price*1 /100*1}}</span>
+        </div>
+        <div *ngIf="responseData?.sale_price == 0">
+            <span class="woo-price"><span class="woocommerce-Price-currencySymbol">₹</span>{{responseData?.price*1 /100*1}}</span>
+          </div>
+        </div>
+
+
+        <div *ngIf="responseData?.product_pricing == 'variable'">
+          <div *ngIf="varresponse?.sale_price != 0 && varresponse?.sale_price != ''">
+            <span class="woo-price"><del style="color: #1f699c;"><span class="woocommerce-Price-currencySymbol">₹</span>{{varresponse?.price*1 /100*1}}</del></span>
+          <span class="woo-price" style="margin-left: 10px;"><span class="woocommerce-Price-currencySymbol">₹</span>{{varresponse?.sale_price*1 /100*1}}</span>
+          </div>
+  
+          <div *ngIf="varresponse?.sale_price == 0 && varresponse?.sale_price != ''">
+              <span class="woo-price"><span class="woocommerce-Price-currencySymbol">₹</span>{{varresponse?.price*1 /100*1}}</span>
+            </div>
+
+            <div *ngIf="varresponse?.outofstock == 'Out of Stock'">
+              <p style="color: red; font-size: 20px;">Out of Stock</p>
+            </div>
+          </div>
+
+
+          <!-- <div *ngIf="responseData?.product_pricing == 'variable' && responseDataVarPrice != null">
+            <div *ngIf="varresponse?.sale_price != 0 || varresponse?.outofstock != 'Out of Stock'">
+              <span class="woo-price"><del style="color: #1f699c;"><span class="woocommerce-Price-currencySymbol">₹</span>{{varresponse?.price*1 /100*1}}</del></span>
+            <span class="woo-price" style="margin-left: 10px;"><span class="woocommerce-Price-currencySymbol">₹</span>{{varresponse?.sale_price*1 /100*1}}</span>
+            </div>
+    
+            <div *ngIf="varresponse?.sale_price == 0 || varresponse?.outofstock != 'Out of Stock'">
+                <span class="woo-price"><span class="woocommerce-Price-currencySymbol">₹</span>{{varresponse?.price*1 /100*1}}</span>
+              </div>
+
+              <div *ngIf="varresponse?.outofstock == 'Out of Stock'">
+                Out of Stock
+              </div>
+            </div> -->
+
+        <!-- <span class="product-outstock">{{'Out of Stock'|translate}}</span> -->
+        <span class="product-instock" *ngIf="varresponse?.outofstock != 'Out of Stock'">{{'In Stock'|translate}}
+          <!-- <span>12</span> -->
+        </span>
+      </ion-col>
+
+      <ion-col class="product-title ion-no-padding" size="12">
+        <h3 class="product-name">{{responseData?.title}}
+          <!-- <br>
+          <small class="product-desc">Women Tops Collection</small> -->
+        </h3>
+
+        <div class="product-ratings">
+          <ion-row class="product-rating animate" (click)="openReviewsPage(Id)">
+            <ion-col size="0.7">
+              <ion-icon name="star"></ion-icon>
+            </ion-col>
+            <ion-col size="0.7">
+              <ion-icon name="star"></ion-icon>
+            </ion-col>
+            <ion-col size="0.7">
+              <ion-icon name="star"></ion-icon>
+            </ion-col>
+            <ion-col size="0.7">
+              <ion-icon name="star"></ion-icon>
+            </ion-col>
+            <ion-col size="0.7">
+              <ion-icon class="light-star" name="star"></ion-icon>
+            </ion-col>
+            <ion-col size="7" class="rating-col">
+              <h6>0{{'Rating & Review'|translate}}</h6>
+            </ion-col>
+          </ion-row>
+        </div>
+        <!-- <p style="display:none;">{{'Total Sales'|translate}}&nbsp;({{product.total_sales}})</p> -->
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="product-detail-header ion-no-padding" *ngIf="responseData?.product_pricing == 'variable'">
+    <ion-row *ngFor="let p of productVariation">
+      <ion-col class="qty-name" size="12">{{p.label}}</ion-col>
+      <ion-col size="5">
+          <ion-select class="select-option" placeholder="Select" (ionChange)="addtocartvariation($event.detail.value, p.id, p.label)">
+            <div *ngFor="let q of varAllOption">
+              <div *ngFor="let a of q">
+            <ion-select-option *ngIf="p.common_id == a.variation_common_id" value={{a.option_text}}>{{a.option_text}}</ion-select-option>
+          </div>
+          </div>
+          </ion-select>
+       </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="product-detail-header ion-no-padding">
+    <ion-row>
+      <ion-col class="left ion-no-padding" size="6">
+        <ion-row align-items-center>
+          <ion-col class="qty-name" size="12">Quantity</ion-col>
+
+          <ion-col class="qty-vlue ion-no-padding" size="3">
+            <ion-button (click)="minusQuantity(product_quantity)" size="small" fill="outline">
+              <ion-icon class="icon-btn" name="remove"></ion-icon>
+            </ion-button>
+          </ion-col>
+
+          <ion-col class="qty-vlue ion-no-padding" size="3">
+            <ion-input [(ngModel)]="product_quantity" class="dgi" type="number" name="q" readonly>
+            </ion-input>
+          </ion-col>
+
+          <ion-col class="qty-vlue ion-no-padding" size="3">
+            <ion-button (click)="addQuantity(product_quantity)" size="small" fill="outline">
+              <ion-icon class="icon-btn" name="add"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col class="right" size="6" *ngIf="responseData?.product_pricing != 'variable'">
+        <ion-row>
+          <ion-col text-right class="ttl-name" size="12">{{'Total' |translate}}&nbsp;{{'Price' |translate}}</ion-col>
+          <ion-col text-right class="ttl-vlue" size="12" *ngIf="responseData?.sale_price != 0"><span class="woocommerce-Price-currencySymbol">₹</span>{{product_quantity*responseData?.sale_price*1 /100*1}}</ion-col>
+          <ion-col text-right class="ttl-vlue" size="12" *ngIf="responseData?.sale_price == 0"><span class="woocommerce-Price-currencySymbol">₹</span>{{product_quantity*responseData?.price*1 /100*1}}</ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col class="right" size="6" *ngIf="responseData?.product_pricing == 'variable' && varresponse == null">
+        <ion-row>
+          <ion-col text-right class="ttl-name" size="12">{{'Total' |translate}}&nbsp;{{'Price' |translate}}</ion-col>
+          <ion-col text-right class="ttl-vlue" size="12" *ngIf="varprice?.sale_price != 0"><span class="woocommerce-Price-currencySymbol">₹</span>{{product_quantity*varprice?.sale_price*1 /100*1}}</ion-col>
+          <ion-col text-right class="ttl-vlue" size="12" *ngIf="varprice?.sale_price == 0"><span class="woocommerce-Price-currencySymbol">₹</span>{{product_quantity*varprice?.price*1 /100*1}}</ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col class="right" size="6" *ngIf="responseData?.product_pricing == 'variable' && varresponse != null">
+        <ion-row>
+          <ion-col text-right class="ttl-name" size="12">{{'Total' |translate}}&nbsp;{{'Price' |translate}}</ion-col>
+          <ion-col text-right class="ttl-vlue" size="12" *ngIf="varresponse?.sale_price != 0"><span class="woocommerce-Price-currencySymbol">₹</span>{{product_quantity*varresponse?.sale_price*1 /100*1}}</ion-col>
+          <ion-col text-right class="ttl-vlue" size="12" *ngIf="varresponse?.sale_price == 0"><span class="woocommerce-Price-currencySymbol">₹</span>{{product_quantity*varresponse?.price*1 /100*1}}</ion-col>
+        </ion-row>
+      </ion-col>
+
+    </ion-row>
+    <ion-row>
+      <!-- <button ion-button block color="danger" *ngIf="!product.in_stock">{{'OUT OF STOCK'|translate}}</button> -->
+      <ion-col class="select-col ion-no-padding" size="12">{{'Please select all product options before adding this product to your
+        cart'|translate}}
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid class="product-description ion-no-padding">
+    <h2>Product Description</h2>
+    <p class="detail-para" [innerHTML]="responseData?.description"></p>
+  </ion-grid>
+  <ion-grid no-padding class="product-detail-content animate-product ion-no-padding">
+    <ion-row no-padding>
+      <ion-col class="ion-no-padding" size="12">
+        <h2 class="related-item">{{'Related Items'|translate}}</h2>
+        <ion-slides class="animated bounceInRight delay-900ms" [options]="sliderConfig">
+          <ion-slide *ngFor="let p of ProductResponse">
+            <app-product [data]="p" [type]="'normal'"></app-product>
+          </ion-slide>
+          <ion-slide>
+            <ion-button class="more-btn" (click)="goToProductPage()" fill="clear"> {{'Shop More'| translate}}
+              <ion-icon class="theme-icon" name="arrow-dropright"></ion-icon>
+            </ion-button>
+          </ion-slide>
+        </ion-slides>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+
+  <ion-row>
+
+    <ion-col size="6" style="padding: 0px 0px; padding-left: 0px;">
+      <ion-button color="secondary" (click)="addToCartProduct(responseData)" *ngIf="disableCartButton == false">
+        <ion-icon name="cart" style="margin-right: 10px;"></ion-icon>
+        Add to cart
+      </ion-button>
+
+      <ion-button color="secondary" (click)="goToCart()" *ngIf="disableCartButton == true">
+        <ion-icon name="cart" style="margin-right: 10px;"></ion-icon>
+        Go to cart
+      </ion-button>
+    </ion-col>
+
+    <ion-col size="6" style="padding: 0px 0px; padding-right: 0px;">
+
+      <ion-button (click)="addtoFav(responseData)" *ngIf="isLiked==0">
+        <ion-icon name="heart" style="margin-right: 10px;"></ion-icon>
+        Add to Favorites
+      </ion-button>
+
+      <ion-button (click)="addtoFav(responseData)" *ngIf="isLiked!==0">
+        <ion-icon name="heart" style="margin-right: 10px;"></ion-icon>
+        Remove from Favorites
+      </ion-button>
+
+      <!-- <ion-icon class="icon" (click)="clickWishList()" *ngIf="isLiked==0" name="heart-empty"></ion-icon>
+      <ion-icon class="icon" (click)="clickWishList()" *ngIf="isLiked!=0" name="heart"></ion-icon> -->
+    </ion-col>
+
+  </ion-row>
+
+</ion-footer>

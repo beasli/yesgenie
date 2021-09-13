@@ -1,0 +1,93 @@
+<ion-header class="order-header">
+  <ion-toolbar>
+
+
+    <ion-menu-button slot="start">
+      <ion-icon name="menu"></ion-icon>
+    </ion-menu-button>
+
+    <ion-title class="ecom-title">My Orders</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="refreshPage()">
+        <ion-icon name="refresh"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" (click)="goToCartPage()">
+        <ion-icon name="cart"></ion-icon>
+        <ion-badge>{{services.cartTotalItems()}}</ion-badge>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content (pinch)="pinchEvent($event)" class="content order-content">
+  <ion-grid class="grid" no-padding *ngIf="responseData == ''">
+    <ion-row no-padding>
+      <ion-col size="12" no-padding>
+        <ion-icon name="briefcase"></ion-icon>
+      </ion-col>
+    </ion-row>
+
+    <ion-row no-padding>
+      <ion-col size="12" no-padding>
+        <h4>{{'Your Order List is Empty'|translate}}</h4>
+      </ion-col>
+    </ion-row>
+
+    <ion-row no-padding>
+      <ion-col size="12" no-padding>
+        <p class="shop-para">{{'Continue Shopping'|translate}}</p>
+      </ion-col>
+    </ion-row>
+
+    <ion-row no-padding>
+      <ion-col size="12" no-padding>
+        <ion-button (click)="openProductsPage()">{{'Explore'|translate}}</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid *ngIf="responseData != ''">
+    <ion-card *ngFor="let order of responseData" (click)="goToOrderDetail(order.order_number)">
+      <ion-card-content>
+        <ion-row>
+          <ion-col size="6">
+            {{'Order ID'|translate}}
+          </ion-col>
+          <ion-col text-right col-6>
+            {{'#'+order.order_number}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            {{'Date'|translate}}
+          </ion-col>
+          <ion-col text-right size="6">
+            {{order.created_at}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            {{'Price'|translate}}
+          </ion-col>
+          <ion-col text-right size="6">
+            {{order.price_total*1 /100*1}} Rs
+          </ion-col>
+        </ion-row>
+        <ion-row class="status-row">
+          <ion-col size="6">
+            {{'Status'|translate}}
+          </ion-col>
+
+          <ion-col text-right size="6" *ngIf="order.status == 0">
+            <strong>Processing</strong>
+          </ion-col>
+
+          <ion-col text-right size="6" *ngIf="order.status == 1">
+            <strong>Complete</strong>
+          </ion-col>
+
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </ion-grid>
+</ion-content>

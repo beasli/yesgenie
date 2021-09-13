@@ -1,0 +1,177 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-menu-button slot="start">
+      <ion-icon name="menu"></ion-icon>
+    </ion-menu-button>
+    <ion-title class="ecom-title">
+      {{'Settings'| translate }}
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="opensearch()">
+        <ion-icon slot="icon-only" name="search"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" (click)="goToCartPage()">
+        <ion-icon class="cart-badge" name="cart"></ion-icon>
+        <ion-badge>{{services.cartTotalItems()}}</ion-badge>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content (pinch)="pinchEvent($event)" class="content" >
+    <ion-row class="row-img">
+        <img src="assets/template-themes/becrux/icons_stripe.svg" />
+    </ion-row>
+    <ion-row>
+      <div class="div-img"></div>
+    </ion-row>
+        <ion-grid padding>
+          <ion-row size="12">
+            <ion-col>
+                <ion-avatar>
+                    <ion-icon class="avatar-icon" name="contact"></ion-icon>
+                </ion-avatar>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <!-- <ion-col size="12" class="login-col">
+                <h2>{{ 'Login/Register' | translate }}</h2>
+                <p>{{ 'Please login or create an account for free' | translate }}</p>
+              </ion-col> -->
+
+              <ion-col size="12" class="login-col">
+                <h2>{{userdata?.username}}</h2>
+                <p>{{userdata?.email}}</p>
+              </ion-col>
+
+          </ion-row>
+        </ion-grid>
+  <!-- <ion-list padding>
+    <ion-item lines="inset"> 
+      <ion-label><p>{{"Turn on/off Local Notifications"|translate}}</p></ion-label>
+      <ion-toggle></ion-toggle>
+    </ion-item>
+    <ion-item lines="none"> 
+      <ion-label><p>{{"Turn on/off Notifications"|translate}}</p></ion-label>
+      <ion-toggle ></ion-toggle>
+    </ion-item>
+  </ion-list> -->
+  <ion-list padding>
+
+    <!-- <ion-item lines="full" (click)="officiaWebSite()"> 
+      <ion-label><p>{{"Official Website"|translate}}</p></ion-label>
+      <ion-icon class="theme-icon"  slot="end" name="arrow-forward"></ion-icon>
+    </ion-item> -->
+
+    <ion-item (click)="openOrdersPage()" lines="full"> 
+      <ion-label><p>Orders</p></ion-label>
+      <ion-icon class="theme-icon"  slot="end" name="arrow-forward"></ion-icon>
+    </ion-item>
+
+
+    <ion-item (click)="openWalletPage()" lines="full"> 
+      <ion-label><p>Wallet</p></ion-label>
+      <ion-icon class="theme-icon"  slot="end" name="arrow-forward"></ion-icon>
+    </ion-item>
+
+    <ion-item (click)="openFollowingPage()" lines="full"> 
+      <ion-label><p>Following</p></ion-label>
+      <ion-icon class="theme-icon"  slot="end" name="arrow-forward"></ion-icon>
+    </ion-item>
+
+
+    <ion-item (click)="openFollowersPage()" lines="full"> 
+      <ion-label><p>Followers</p></ion-label>
+      <ion-icon class="theme-icon"  slot="end" name="arrow-forward"></ion-icon>
+    </ion-item>
+
+
+    <ion-item (click)="openMessagePage()" lines="full">
+      <ion-label><p>Message</p></ion-label>
+      <ion-icon class="theme-icon"  slot="end" name="arrow-forward"></ion-icon>
+    </ion-item>
+
+
+    <ion-item (click)="usersettings()" lines="full"> 
+      <ion-label><p>User Settings</p></ion-label>
+      <ion-icon class="theme-icon"  slot="end" name="arrow-forward"></ion-icon>
+    </ion-item>
+
+
+    <ion-item (click)="openDownloadPage()" lines="full"> 
+      <ion-label><p>Downloads</p></ion-label>
+      <ion-icon class="theme-icon"  slot="end" name="arrow-forward"></ion-icon>
+    </ion-item>
+
+
+    <ion-item (click)="openQuoteRequestPage()" lines="full"> 
+      <ion-label><p>Quote Requests</p></ion-label>
+      <ion-icon class="theme-icon"  slot="end" name="arrow-forward"></ion-icon>
+    </ion-item>
+
+
+    <ion-item (click)="goToWishListPage()" lines="full"> 
+      <ion-label><p>My Wish List</p></ion-label>
+      <ion-icon class="theme-icon"  slot="end" name="arrow-forward"></ion-icon>
+    </ion-item>
+
+
+    <!-- <ion-item (click)="goToAddressPage()" lines="full"> 
+      <ion-label><p>Address</p></ion-label>
+      <ion-icon class="theme-icon"  slot="end" name="arrow-forward"></ion-icon>
+    </ion-item> -->
+
+
+    <!-- <ion-item (click)="#" lines="full"> 
+      <ion-label><p>Settings</p></ion-label>
+      <ion-icon class="theme-icon"  slot="end" name="arrow-forward"></ion-icon>
+    </ion-item> -->
+
+    
+
+    <!-- <ion-item (click)="openEditProPage()" lines="full">
+      <ion-label><p>Edit Profile</p></ion-label>
+      <ion-icon class="theme-icon"  slot="end" name="arrow-forward"></ion-icon>
+    </ion-item> -->
+
+
+    <!-- <ion-item (click)="openChangePassPage()" lines="full"> 
+      <ion-label><p>Change Password</p></ion-label>
+      <ion-icon class="theme-icon"  slot="end" name="arrow-forward"></ion-icon>
+    </ion-item> -->
+
+
+
+    <ion-item (click)="openPrivacyPolicyPage()" lines="full"> 
+      <ion-label><p>{{"Privacy Policy"|translate}}</p></ion-label>
+      <ion-icon class="theme-icon"  slot="end" name="arrow-forward"></ion-icon>
+    </ion-item>
+
+    <ion-item (click)="openRefundPolicyPage()" lines="full"> 
+      <ion-label><p>{{"Refund Policy"|translate}}</p></ion-label>
+      <ion-icon class="theme-icon"  slot="end" name="arrow-forward"></ion-icon>
+    </ion-item>
+
+    <ion-item (click)="openTermServicesPage()"  lines="full"> 
+      <ion-label><p>{{"Terms and Services"|translate}}</p></ion-label>
+      <ion-icon class="theme-icon"  slot="end" name="arrow-forward"></ion-icon>
+    </ion-item>
+
+    <ion-item  (click)="rateUs()" lines="full" > 
+      <ion-label><p>{{"Rate Us"|translate}}</p></ion-label>
+      <ion-icon class="theme-icon"  slot="end" name="star-half"></ion-icon>
+    </ion-item>
+
+    <ion-item  (click)="share()" lines="full"> 
+      <ion-label><p>{{"Share"|translate}}</p></ion-label>
+      <ion-icon class="theme-icon"  slot="end" name="share"></ion-icon>
+    </ion-item>
+
+  </ion-list>
+
+
+  <ion-item lines="none">
+    <ion-button color="secondary" (click)="logOut()">Log Out</ion-button>
+  </ion-item>
+  
+</ion-content>

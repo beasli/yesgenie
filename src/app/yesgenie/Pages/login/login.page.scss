@@ -1,0 +1,204 @@
+.thankyou-content {
+  --background: url(../../../../assets/login-img.png)
+  no-repeat center center fixed; 
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        background-size: cover;
+  .header-card {
+      background: var(--ion-color-primary);
+      margin: 0;
+      border-bottom-left-radius: 40px;
+      border-bottom-right-radius: 40px;
+      .header-content {
+        width: 100%;
+        margin-top: 30px;
+        text-align: center;
+        ion-avatar {
+          margin-left: auto;
+          margin-right: auto;
+          background: white;
+          div {
+            ion-icon {
+              font-size: 50px;
+              margin-top: 10px;
+            }
+          }
+        }
+        h2 {
+          font-size: 19px;
+          font-family: "roboto-regular";
+          color: white;
+          margin-top: 35px;
+          margin-bottom: 30px;
+        }
+      }
+    }
+    .list {
+      margin-left: 68px;
+      margin-right: 16px;
+      background: transparent !important;
+      padding-top: 15px;
+      padding-bottom: 0;
+      width: 70%;
+      ion-item {
+        border-radius: 10px;
+        border: solid 1px #f3edea;
+        --background: #e4e4e4;
+        margin-bottom: 10px;
+        ion-input {
+          --placeholder-color: var(--ion-color-primary);
+          --placeholder-opacity: 1;
+        }
+        ion-icon {
+          font-size: 16px;
+          margin-right: 5px;
+        }
+        p {
+          font-size: 16px;
+          font-family: "roboto-regular";
+          margin-top: auto;
+          margin-bottom: auto;
+          color: black;
+        }
+      }
+    }
+    .item-forget-pass {
+      --background: transparent;
+      font-family: "roboto-regular";
+      font-size: 12px;
+      --color: black;
+      --inner-padding-start: 18px;
+      p {
+        margin-top: 0;
+      }
+      ion-button {
+        --color: #fe9130;
+        text-transform: capitalize;
+        font-family: "roboto-regular";
+        font-size: 12px;
+        --ripple-color: #fe9130;
+        margin-top: -10px;
+      }
+    }
+    .btn-div {
+      text-align: center;
+      width: 100%;
+      margin-top: 10px;
+      ion-button {
+        height: 42px;
+        --background: var(--ion-color-primary);
+        width: 58%;
+        --box-shadow: none;
+        --border-radius: 20px;
+        font-family: "roboto-regular";
+        font-size: 13px;
+      }
+    }
+    .grid-or {
+      ion-col {
+        &:first-child,
+        &:last-child {
+          div {
+            height: 1px;
+            width: 100%;
+            background: black;
+          }
+        }
+        &:first-child {
+          padding-left: 25px;
+        }
+        &:last-child {
+          padding-right: 25px;
+        }
+        p {
+          font-family: "roboto-regular";
+          font-size: 10px;
+          text-align: center;
+          color: black;
+        }
+      }
+    }
+    .grid-icons {
+      ion-col {
+        &:first-child {
+          ion-avatar {
+            margin-left: auto !important;
+          }
+        }
+        &:last-child {
+          ion-avatar {
+            margin-right: auto !important;
+          }
+        }
+        ion-avatar {
+          height: 46px;
+          width: 46px;
+          border: solid lightgray 1px;
+          ion-icon {
+            font-size: 20px;
+            margin: 12px 0 0 12px;
+          }
+        }
+        .avatar-center {
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+    }
+    .para-member {
+      text-align: center;
+      font-family: "roboto-regular";
+      font-size: 14px;
+      margin-top: 10px;
+      margin-bottom: 0;
+    }
+    .create-div {
+      text-align: center;
+      width: 100%;
+      margin-top: 15px;
+      ion-button {
+        height: 33px;
+        --color: black;
+        width: 70%;
+        --box-shadow: none;
+        border-radius: 20px;
+        border: solid 1px black;
+        font-family: "roboto-regular";
+        font-size: 11px;
+        text-transform: capitalize;
+      }
+    }
+  }
+
+  .LoginLogo{
+
+    width: 130px;
+    height: 130px;
+    display: block;
+    margin: 0 auto;
+
+  }
+
+  @media screen and (max-width: 350px) {
+    .header-content p, .header-content h2{
+        margin: 0 !important;
+    }
+    .listp{
+      margin-bottom: 0 !important;
+    }
+    .forgot_passwordp p{ margin:0 !important; font-size: 15px; }
+    .login_accountp{
+       font-size: 20px !important;
+    }
+    .LoginLogo img{
+      height: 110px !important;
+    }
+    .thankyou-content{
+          --background: url(../../../../assets/login-img.png) no-repeat center center fixed;
+          background-size: cover;
+      }
+    .login_iconp{
+      width: 27px !important;
+    }
+  }
+

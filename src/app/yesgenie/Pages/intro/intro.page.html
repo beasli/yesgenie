@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button color='dark' (click)="goToLogin()" [hidden]="!showSkip">Skip</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen class="bg">
+  <ion-slides #slides (ionSlideWillChange)="onSlideChangeStart($event)" pager="true" [options]="slideOpts">
+
+    <ion-slide text-center>
+      <img src="assets/intro/slider1.png" class="slide-image" />
+      <h2 class="slide-title" style="margin-top: 10px; font-size: 26px">A MARKETPLACE</h2>
+      <h2 class="slide-title" style="color: black; margin-top: 10px;">Where Vendor Meet Customers Directly<br>Any Where, Anytime</h2>
+      
+    </ion-slide>
+
+    <ion-slide text-center>
+      <img src="assets/intro/slider2.png" class="slide-image" />
+      <h2 class="slide-title" style="margin-top: 10px; font-size: 26px">Experience Shopping</h2>
+      <h2 class="slide-title" style="color: black; margin-top: 10px;">Anywhere, Anytime without Hassle</h2>
+     
+    </ion-slide>
+
+  <ion-slide text-center>
+    <img src="assets/intro/slider3.png" class="slide-image" />
+    <h2 class="slide-title" style="margin-top: 10px; font-size: 26px">A Digital Approach</h2>
+    <h2 class="slide-title" style="color: black; margin-top: 10px;">Directly Vendor to Customer</h2>
+   
+    <!-- <ion-button fill="full" color="dark" (click)="startApp()">
+        <h2 class="slide-title1">Continue</h2>
+        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      </ion-button> -->
+
+      <div text-center class="btn-div procclas" style='filter:var(--my-var)'>
+          <ion-button color="primary" class="animated fadeIn intro_proceed_btn" shape="round" (click)="goToLogin()">
+            <p style="font-family: sans-serif; font-size: 17px; margin-left: 22px;">Proceed</p>
+            <ion-icon name="arrow-round-forward"></ion-icon>
+          </ion-button>
+        </div>
+      <!-- <ion-button expand="block" (click)="startApp()">Continue</ion-button> -->
+    
+  </ion-slide>
+
+  </ion-slides>
+
+
+</ion-content>

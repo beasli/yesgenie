@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-menu-button slot="start">
+      <ion-icon name="menu"></ion-icon>
+    </ion-menu-button>
+    <ion-title class="ecom-title">
+      About Us
+    </ion-title>
+    <ion-buttons slot="end">
+      <!-- <ion-button fill="clear" (click)="goToSearchPage()">
+        <ion-icon slot="icon-only" name="search"></ion-icon>
+      </ion-button> -->
+      <ion-button fill="clear" (click)="goToCartPage()">
+        <ion-icon name="cart"></ion-icon>
+        <ion-badge>{{service1.cartTotalItems()}}</ion-badge>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content (pinch)="pinchEvent($event)" class="content">
+  <ion-text no-padding>
+    <p>
+      Yes Genie is India’s 1st Full Stack marketplace for all types of Products whether essential, utility, or lifestyle. Our products are carefully selected and processed under stringent standards to deliver the perfect product for Indian people. Yes Genie built on the firm foundation of their promise of providing the products to the customers with honest pricing & the best quality with-quick and fast services to customer door-step 365 days of the year.<br><br>
+
+      Today you can shop from Yes Genie home Brands and eliminate the worry of quality, price, freshness, and hassles of traffic, parking, and be waiting in queues for billing from the comfort of your home. Under Yes Genie, we give access to the customer to buy all kinds of products without having to worry about impulse purchase during the shopping.
+
+
+    </p>
+  </ion-text>
+  <ion-list no-padding>
+    <!-- <ion-item lines="full" (click)="officiaWebSite()">
+      {{"Official Website"|translate}}
+      <ion-icon class="theme-icon"  name="arrow-forward" slot="end"></ion-icon>
+    </ion-item> -->
+    <ion-item (click)="showModal('privacyPolicy')" lines="full">
+      {{'Privacy Policy'|translate}}
+      <ion-icon class="theme-icon"  name="arrow-forward" slot="end"></ion-icon>
+    </ion-item>
+    <ion-item (click)="showModal('refundPolicy')" lines="full">
+      {{'Refund Policy'|translate}}
+      <ion-icon class="theme-icon"  name="arrow-forward" slot="end"></ion-icon>
+    </ion-item>
+    <ion-item (click)="showModal('termServices')" lines="none">
+      {{'Term and Services'|translate}}
+      <ion-icon class="theme-icon"  name="arrow-forward" slot="end"></ion-icon>
+    </ion-item>
+  </ion-list>
+</ion-content>

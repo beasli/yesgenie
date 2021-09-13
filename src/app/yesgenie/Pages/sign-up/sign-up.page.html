@@ -1,0 +1,150 @@
+
+<ion-content class="thankyou-content">
+  <div class="header-card">
+      <ion-buttons slot="start" style="color: black;">
+          <ion-button expand="block" routerLink="/bs-login" routerDirection="backward">
+            <ion-icon class="multi-purpose-toolbar-icon" name="arrow-back"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+  </div>
+
+  <div class="LoginLogo">
+    <!-- <ion-img src="assets/logo.png"></ion-img> -->
+</div>
+
+  <div text-center>
+    <h2 style="margin-bottom: 16px;">Create Your Account</h2>
+  </div>
+  <form class="form" (ngSubmit)="signup()" #loginForm="ngForm" style="width: 80%;margin:57px auto;">
+
+    <ion-list class="list">
+  
+  
+      <div style="overflow: scroll; height: 370px;">
+  
+        <ion-item class="animated fadeInRight" lines="none">
+          <ion-input placeholder="Name" name="username" [(ngModel)]="username" required type="text"></ion-input>
+        </ion-item>
+        <!-- <div *ngIf="userRegister.controls.name.hasError('required')  && userRegister.controls.name.touched">
+            <p class="error-text">Name is required</p>
+        </div> -->
+  
+  
+        <!-- <ion-item class="animated fadeInRight" lines="none">
+            <ion-input placeholder="Mobile Number" formControlName="phone_number" type="Number"></ion-input>
+          </ion-item> -->
+  
+  
+          <div class="sendnum">
+            <ion-item>
+              <ion-input placeholder="Phone" type="number" name="phone" [(ngModel)]="phone_number" ngModel required pattern="[789][0-9]{9}"></ion-input>
+            </ion-item>
+
+            <div class="btn-div" id="numsend">
+              <ion-button color="primary" (click)="send()" >Send OTP</ion-button>
+            </div>
+          </div>
+        
+          <div class="otpnum nodisplay" id="otp">  
+            <ion-item>
+                <ion-label position="floating">Enter OTP</ion-label>
+                <ion-input type="number" name="otp" [(ngModel)]="otp" ngModel required></ion-input>
+              </ion-item>
+              <ion-row>
+                <ion-col>    
+                  <ion-button color="primary" expand="full" (click)="verify()">Verify OTP</ion-button>
+                </ion-col>
+                <ion-col>
+                    <ion-button color="primary" expand="full" (click)="send()">Resend OTP</ion-button>
+                </ion-col>
+              </ion-row>
+          </div>
+          
+          <!-- <div *ngIf="userRegister.controls.phone.hasError('required')  && userRegister.controls.phone.touched">
+              <p class="error-text">Phone Number is required</p>
+          </div> -->
+  
+        <ion-item class="animated fadeInRight" lines="none">
+            <ion-input placeholder="Email Id" name="email" [(ngModel)]="email" required type="text" ></ion-input>
+          </ion-item>
+          <!-- <div *ngIf="userRegister.controls.email.hasError('required')  && userRegister.controls.email.touched">
+              <p class="error-text">Email is required</p>
+          </div>
+          <div *ngIf="!userRegister.controls.email.hasError('required')  &&  userRegister.controls.email.hasError('validateEmail')  && userRegister.controls.email.touched">
+            <p class="error-text">Enter a Valid Email Id</p>
+          </div> -->
+  
+  
+            <ion-item class="animated fadeInRight" lines="none">
+                <ion-input placeholder="Password" name="password"   [(ngModel)]="password" type="Password" [type]="passwordType" clearOnEdit="false" required></ion-input>
+                <ion-icon item-end [name]="passwordIcon" class="passwordIcon" (click)='hideShowPassword()'></ion-icon>
+              </ion-item>
+              <!-- <div *ngIf="userRegister.controls.password.hasError('required')  && userRegister.controls.password.touched">
+                  <p class="error-text">Password is required</p>
+              </div>
+              <div *ngIf="userRegister.controls.password.hasError('minlength')  && userRegister.controls.password.touched">
+                <p class="error-text">Password should be equal or greater than 8 charcters</p>
+              </div> -->
+  
+              <ion-item class="animated fadeInRight" lines="none">
+                  <ion-input placeholder="Confirm Password" type="Password"></ion-input>
+                </ion-item>
+                <!-- <div *ngIf="userRegister.controls.confPassword.hasError('required')  && userRegister.controls.confPassword.touched">
+                    <p class="error-text">Password Confirm is required</p>
+                </div>
+                <div *ngIf="!userRegister.controls.confPassword.hasError('required')  &&userRegister.hasError('mismatchedPasswords') && userRegister.controls.confPassword.touched">
+                  <p class="error-text">Password and Password Confirm does not match</p>
+                </div> -->
+  
+                <!-- <div>
+                  <ion-checkbox></ion-checkbox>
+                  <p style=" font-size: 13px;">I accept the terms and conditions, and would like to receive updates and other information by email.</p>
+                </div> -->
+  
+              </div>
+                
+    </ion-list>
+    <!-- <ion-item lines="none" class="item-checkbox">
+      <ion-checkbox slot="start"></ion-checkbox>
+      <ion-label>
+        I would like to receive the latest news from the
+        company by email
+      </ion-label>
+    </ion-item> -->
+    <div class="btn-div">
+      <ion-button color="primary" class="btn" disabled="true"  type="submit" [disabled]="!loginForm.form.valid">Sign Up</ion-button>
+    </div>
+  
+  
+  </form>
+  
+
+  <!-- <ion-grid class="grid-or">
+    <ion-row>
+      <ion-col class="ion-align-self-center">
+        <div></div>
+      </ion-col>
+      <ion-col size="1">
+        <p>Or</p>
+      </ion-col>
+      <ion-col class="ion-align-self-center">
+        <div></div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid class="grid-icons">
+    <ion-row>
+        <ion-col>
+            <ion-avatar class="animated fadeIn">
+              <ion-img src="assets/facebook.png"></ion-img>
+            </ion-avatar>
+          </ion-col>
+        
+          <ion-col>
+            <ion-avatar class="animated fadeIn">
+              <ion-img src="assets/google.png"></ion-img>
+            </ion-avatar>
+          </ion-col>
+    </ion-row>
+  </ion-grid> -->
+</ion-content>

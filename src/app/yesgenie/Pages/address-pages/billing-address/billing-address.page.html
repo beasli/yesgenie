@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="goToShippingAddress()">
+        <ion-icon slot="icon-only" src='assets/back.svg'></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ecom-title"> {{'Billing Address'| translate }} </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content (pinch)="pinchEvent($event)" class="content">
+  <form>
+    <ion-item>
+      <ion-label position="floating">{{' Name'|translate}}</ion-label>
+      <ion-input type="text" name="shipping_name" value={{responseDatainfo?.username}}></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">{{'Address'|translate}} 1</ion-label>
+      <ion-input type="text" name="address" value={{responseDatainfo?.shipping_address_1}} required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">{{'Address'|translate}} 2</ion-label>
+      <ion-input type="text" name="address2" value={{responseDatainfo?.shipping_address_2}}></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">{{'Country'|translate}}</ion-label>
+      <ion-select value={{responseDatainfo?.shipping_country_id}} class="seloption ionselectborder" (ionChange)="getallstate($event.detail.value)">
+      <ion-select-option value="India">India</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+       <ion-label position="floating">{{'State'|translate}}</ion-label>
+       <ion-select value={{responseDatainfo?.shipping_state}} class="seloption ionselectborder" (ionChange)="Citiesbystate($event.detail.value)">
+       <ion-select-option value="Delhi">Delhi</ion-select-option>
+       </ion-select>   
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Place</ion-label>
+      <ion-input type="text" name="shipping_city" value={{responseDatainfo?.shipping_city}} ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">{{'Post code'|translate}}</ion-label>
+      <ion-input type="text" name="shipping_postcode" value={{responseDatainfo?.shipping_zip_code}} required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">{{'Email'|translate}}</ion-label>
+      <ion-input type="email" name="shipping_email" value={{responseDatainfo?.shipping_email}} required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">{{'Phone'|translate}}</ion-label>
+      <ion-input type="number" name="shipping_phone" value={{responseDatainfo?.shipping_phone_number}} required></ion-input>
+    </ion-item>
+
+    <!-- <ion-item lines="none" class="toggle-item">
+      <ion-toggle style='--background-checked:var(--my-var)' slot="start"></ion-toggle>
+      <ion-label class="label-para">
+        <p>Same As Shpping Address</p>
+      </ion-label>
+    </ion-item> -->
+  </form>
+</ion-content>
+<ion-footer>
+  <ion-button (click)="goToShippingMethod()" expand="full">
+    {{'Next'|translate}}
+  </ion-button>
+</ion-footer>

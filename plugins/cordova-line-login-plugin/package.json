@@ -1,0 +1,48 @@
+{
+  "_args": [
+    [
+      "cordova-line-login-plugin@1.2.5",
+      "D:\\yes"
+    ]
+  ],
+  "_from": "cordova-line-login-plugin@1.2.5",
+  "_id": "cordova-line-login-plugin@1.2.5",
+  "_inBundle": false,
+  "_integrity": "sha512-izQ9KK5Vq8XSl3tJXtPS/NGIGCw22fcrp330IwC04TdeYHbm0vSo8tKkudWqhE6DBaTMQRB20Fpz6RX2ut+96w==",
+  "_location": "/cordova-line-login-plugin",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "cordova-line-login-plugin@1.2.5",
+    "name": "cordova-line-login-plugin",
+    "escapedName": "cordova-line-login-plugin",
+    "rawSpec": "1.2.5",
+    "saveSpec": null,
+    "fetchSpec": "1.2.5"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-line-login-plugin/-/cordova-line-login-plugin-1.2.5.tgz",
+  "_spec": "1.2.5",
+  "_where": "D:\\yes",
+  "bugs": {
+    "url": "https://github.com/nrikiji/cordova-line-login-plugin/issues"
+  },
+  "cordova": {
+    "id": "cordova-line-login-plugin",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "description": "LineSDKを使用してLINEログインを簡単に実装するためのcordovaプラグイン。",
+  "homepage": "https://github.com/nrikiji/cordova-line-login-plugin#readme",
+  "name": "cordova-line-login-plugin",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nrikiji/cordova-line-login-plugin.git"
+  },
+  "version": "1.2.5"
+}

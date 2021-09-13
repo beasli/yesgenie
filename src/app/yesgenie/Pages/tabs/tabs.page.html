@@ -1,0 +1,27 @@
+  <ion-tabs>
+    <ion-tab-bar color="primary" slot="bottom">
+
+      <ion-tab-button tab="bs-categories">
+        <ion-img class="imgclass" src="assets/tab-icon/catogories.png"></ion-img>
+      </ion-tab-button>
+
+      <ion-tab-button tab="bs-wish-list">
+        <ion-img class="imgclass" src="assets/tab-icon/wishlist.png"></ion-img>
+      </ion-tab-button>
+
+      <ion-tab-button tab="bs-home">
+        <ion-img class="imgclass" src="assets/tab-icon/home.png"></ion-img>
+      </ion-tab-button>
+
+      <ion-tab-button (click)="support()">
+        <ion-icon style="color: white;" class="support" name="people"></ion-icon>
+      </ion-tab-button>
+
+      <ion-tab-button routerLink="/bs-cart">
+          <ion-icon style="color: white;" class="cart-badge" name="cart"></ion-icon>
+          <ion-badge>{{service.cartTotalItems()}}</ion-badge>
+        <!-- <ion-img class="imgclass" src="assets/tab-icon/cart.png"></ion-img> -->
+      </ion-tab-button>
+      
+    </ion-tab-bar>
+  </ion-tabs>

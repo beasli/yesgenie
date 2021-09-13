@@ -1,0 +1,163 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" routerLink="/tabs/bs-home" routerDirection="backward">
+        <ion-icon slot="icon-only" src="assets/back.svg"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ecom-title"> {{'My Cart'| translate }} </ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear">
+        <ion-icon name="cart"></ion-icon>
+        <ion-badge>{{services1.cartTotalItems()}}</ion-badge>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content (pinch)="pinchEvent($event)" class="content">
+
+
+
+
+  <ion-grid class="ion-no-padding grid-empty" *ngIf="services1.cartProducts.length==0">
+    <ion-row class="ion-no-padding">
+      <ion-col size="12" class="ion-no-padding">
+        <ion-icon name="basket"></ion-icon>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-no-padding">
+      <ion-col size="12" class="ion-no-padding">
+        <h4>{{'Your cart is empty'|translate}}</h4>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-no-padding">
+      <ion-col size="12" class="ion-no-padding">
+        <h5>{{'continue shopping'|translate}}</h5>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-no-padding">
+      <ion-col size="12" class="ion-no-padding">
+        <ion-button color="secondary" (click)="openProductsPage()">{{'Explore'|translate}}</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+
+
+
+  <ion-card padding *ngFor="let p of products">
+    <ion-card-header no-padding>
+      <ion-card-subtitle>
+        <h3> {{p.product_title}} </h3>
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid no-padding>
+        <ion-row style="margin-top: 30px;">
+          <ion-col size="3" class="ion-no-padding">
+            <ion-img src="https://www.yesgenie.com/uploads/images/{{p.image}}"></ion-img>
+          </ion-col>
+          <ion-col class="col-price" size="5">
+            <p>MRP:</p>
+            <p style="margin-bottom: -16px;">Unit Price:</p><br>
+            <p style="margin-bottom: 8px;">Quantity:</p>
+            <p><b>Sub Total:</b></p>
+          </ion-col>
+          <ion-col class="col-price-ori" size="4">
+            <p class="para-del"><span class="woocommerce-Price-currencySymbol">₹</span>{{p.product_unit_price*1 /100*1 | number : '1.2-2'}}</p>
+            <p class="para-del"><span class="woocommerce-Price-currencySymbol">₹</span>{{p.product_price*1 /100*1 | number : '1.2-2'}}</p>
+            <div class="div-btn">
+              <ion-button (click)="minusQuantity(p)" size="small" class="sub-btn">
+                <p class="minus-para">-</p>
+              </ion-button>
+              <span>{{p.product_quantity}}</span>
+              <ion-button (click)="addQuantity(p)" class="add-btn" size="small">
+                <p class="plus-para">+</p>
+              </ion-button>
+            </div>
+            <br /><br />
+            
+            <p  class="para-price-ori"><b><span class="woocommerce-Price-currencySymbol">₹</span>{{p.product_total_price*1 /100*1 | number : '1.2-2'}}</b></p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="2.5" class="view-col">
+            <ion-button (click)="goToProductDetail(p.product_id, p.category_id)">view</ion-button>
+          </ion-col>
+          <ion-col size="8.5">
+            <ion-button (click)="removeCart(p.product_id)" fill="clear" color="danger">remove</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card padding *ngIf="services1.cartProducts.length!=0">
+    <ion-card-header no-padding>
+      <ion-card-subtitle>
+        <h3> Apply Coupon Codes </h3>
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content [formGroup]="couponcode">
+      <ion-item>
+        <ion-input placeholder="coupon codes" formControlName="coupon"></ion-input>
+        <ion-button class="coupon-btn" slot="end" class="btn" [disabled]="!couponcode.valid" type="submit" (click)="Getcoupon()"> APPLY</ion-button>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="price-card" *ngFor="let order of orders">
+    <ion-card-content *ngIf="services1.cartProducts.length!=0">
+      <ion-row>
+        <ion-col size="6">
+          <p>
+            {{'Sub Total'|translate}}
+          </p>
+        </ion-col>
+        <ion-col text-right size="6">
+          <p>
+            <span class="woocommerce-Price-currencySymbol">₹</span>{{product_total_price*1 /100*1 | number : '1.2-2'}}
+          </p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <p>
+            {{'Discount'|translate}}
+          </p>
+        </ion-col>
+        <ion-col text-right size="6">
+          <p>
+            <span class="woocommerce-Price-currencySymbol">₹</span>{{TotalDiscount*1 /100*1 | number : '1.2-2'}}
+          </p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <p>
+            <b>
+              {{'Total'|translate}}
+            </b>
+          </p>
+        </ion-col>
+        <ion-col text-right size="6">
+          <p>
+            <b>
+              <span class="woocommerce-Price-currencySymbol">₹</span>{{product_price_afterDiscount*1 /100*1 | number : '1.2-2'}}
+            </b>
+          </p>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>
+<ion-footer *ngIf="services1.cartProducts.length!=0">
+  <ion-button (click)="proceedToCheckOut()" expnad="full">Proceed</ion-button>
+</ion-footer>

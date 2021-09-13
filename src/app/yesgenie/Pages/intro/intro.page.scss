@@ -1,0 +1,73 @@
+ion-toolbar {
+  // TODO test transparent and fullscreen
+  --background: transparent;
+  --border-color: transparent;
+}
+.bg {
+  --background: url(../../../../assets/BackgroundIndro.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  }
+
+.swiper-slide {
+  display: block;
+}
+
+.slide-title {
+  font-family: sans-serif;
+  margin-top: 7.8rem;
+  color: #285094;
+  font-size: 21px;
+}
+
+.slide-title1{
+  margin-top: 0.8rem;
+  color:tomato;
+  font-size: 1.4rem;
+}
+
+.slide-image {
+  margin-top: 60px;
+  max-height: 80%;
+  max-width: 80%;
+}
+
+b {
+  font-weight: 500;
+}
+
+p {
+  color: #fafafa;
+
+  b {
+    color: mediumturquoise;
+  }
+}
+
+.logo
+{
+
+   // width: 130px;
+    margin-left: 143px;
+    margin-top: 30px;
+
+}
+
+
+.intro_proceed_btn{
+    margin-top: -10px;
+    height: 40px;
+}
+
+ion-slide{
+  margin-bottom: 30px;
+}
+
+ion-header {
+  position: initial !important;
+}
+
+.procclas{
+  margin-top: 25px;
+}

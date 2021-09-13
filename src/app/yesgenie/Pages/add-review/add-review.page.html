@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="goToproductDetail()">
+        <ion-icon slot="icon-only" src='assets/back.svg'></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ecom-title">{{'Write a review'|translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content (pinch)="pinchEvent($event)" no-padding class="content">
+  <h4>{{'Comment about this product'|translate}}</h4>
+  <ion-grid no-padding>
+    <ion-row no-padding>
+      <ion-col size="3.6" no-padding style="padding: 14px 0px;">
+        <h5>{{'Your Rating:'|translate}}</h5>
+      </ion-col>
+      <ion-col size="1" *ngFor="let s of ratingStars" align-self-end>
+        <ion-icon [name]="s.fill" (click)="selectRating(s.value)"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <form  class="form" [formGroup]="addrating">
+    <ion-item>
+      <ion-input type="text" placeholder="{{'Name'|translate}}" name="name" value={{userdata?.username}} readonly></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" placeholder="{{'Email'|translate}}" name="email" value={{userdata?.email}}  readonly></ion-input>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-textarea rows="17" placeholder="Enter a description" formControlName="review"></ion-textarea>
+    </ion-item>
+  <ion-button expand="full" type="submit" [disabled]="!addrating.valid" (click)="Addproductreviews()">
+    {{ 'Post Comment' | translate }}
+  </ion-button>
+</form>
+
+</ion-content>

@@ -1,0 +1,103 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "com.razorpay.cordova": {
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
+    "cordova-line-login-plugin": {
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
+    "cordova-plugin-admob-free": {
+      "ADMOB_APP_ID": "ca-app-pub-9449095935333728~6200330048",
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
+    "cordova-plugin-advanced-http": {
+      "OKHTTP_VERSION": "3.10.0",
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
+    "cordova-plugin-androidx": {
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
+    "cordova-plugin-androidx-adapter": {
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
+    "cordova-plugin-facebook4": {
+      "APP_ID": "1228036394319863",
+      "APP_NAME": "yesgenie",
+      "FACEBOOK_HYBRID_APP_EVENTS": "false",
+      "FACEBOOK_ANDROID_SDK_VERSION": "5.5.2",
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
+    "cordova-plugin-geolocation": {
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
+    "cordova-plugin-googleplus": {
+      "PLAY_SERVICES_VERSION": "15.0.1",
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
+    "cordova-plugin-ionic-keyboard": {
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
+    "cordova-plugin-ionic-webview": {
+      "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+",
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
+    "cordova-plugin-nativegeocoder": {
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
+    "cordova-plugin-themeablebrowser": {
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
+    "cordova-plugin-x-socialsharing": {
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
+    "cordova-plugin-youtube-video-player": {
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
+    "cordova-plugin-market": {
+      "PACKAGE_NAME": "yesgenie.app.com"
+    }
+  },
+  "dependent_plugins": {
+    "cordova-admob-sdk": {
+      "PLAY_SERVICES_VERSION": "11.0.4",
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
+    "cordova-plugin-add-swift-support": {
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
+    "cordova-promise-polyfill": {
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
+    "cordova-plugin-cocoapod-support": {
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
+    "es6-promise-plugin": {
+      "PACKAGE_NAME": "yesgenie.app.com"
+    }
+  }
+}

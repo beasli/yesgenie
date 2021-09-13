@@ -1,0 +1,233 @@
+<ion-header class="order-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="goToShippingMethod()">
+        <ion-icon class="back-icon" slot="icon-only" src="assets/back.svg"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ecom-title">
+      {{'Shipping Method'| translate }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content (pinch)="pinchEvent($event)" class="order-content">
+  <ion-card>
+    <ion-card-header>
+      <h4>{{'Shipping Address'|translate}}</h4>
+    </ion-card-header>
+    <ion-card-content class="card-content-single">
+      <p class="para-single-line">
+        {{responseDatainfo?.shipping_address_1+', '+responseDatainfo?.shipping_city+', '+responseDatainfo?.shipping_first_name}}
+      </p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <h4>{{'Billing Address'|translate}}</h4>
+    </ion-card-header>
+    <ion-card-content class="card-content-single">
+      <p class="para-single-line">
+        {{billingAddress?.shipping_address_1+', '+billingAddress?.shipping_city+', '+billingAddress?.shipping_first_name}}
+      </p>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- <ion-card>
+    <ion-card-header>
+      <h4>{{'Shipping Method'|translate}}</h4>
+    </ion-card-header>
+    <ion-card-content class="card-content-single">
+      <p class="para-single-line">
+        Free shipping
+      </p>
+    </ion-card-content>
+  </ion-card> -->
+  <ion-card class="order-product">
+    <ion-card-header>
+      <h4>{{'Products'|translate}}</h4>
+    </ion-card-header>
+    <ion-card-content *ngFor="let product of products">
+      <ion-row class="row-product">
+        <ion-col class="product-name">
+          <h3>{{product.product_title}}
+          </h3>
+        </ion-col>
+      </ion-row>
+      <ion-item lines="none" class="product-item">
+        <ion-thumbnail slot="start">
+          <img src="https://www.yesgenie.com/uploads/images/{{product.image}}" />
+        </ion-thumbnail>
+        <ion-label class="label-product">
+         
+          <ion-row>
+            <ion-col text-left size="6">
+              <p>MRP:</p>
+            </ion-col>
+            <ion-col text-right size="6" class="right-col">
+              <p><span class="woocommerce-Price-currencySymbol">₹</span>{{product.product_unit_price*1 /100*1 | number : '1.2-2'}}</p>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col text-left size="6">
+              <p>Unit Price:</p>
+            </ion-col>
+            <ion-col text-right size="6" class="right-col">
+              <p><span class="woocommerce-Price-currencySymbol">₹</span>{{product.product_price*1 /100*1 | number : '1.2-2'}}</p>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col text-left size="6">
+              <p>{{'Quantity'|translate}}:</p>
+            </ion-col>
+            <ion-col text-right size="6" class="right-col">
+              <p>{{product.product_quantity}}</p>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col text-left size="6">
+              <p>{{'Sub Total'|translate}}:</p>
+            </ion-col>
+            <ion-col text-right size="6" class="right-col">
+              <p><span class="woocommerce-Price-currencySymbol">₹</span>{{product.product_total_price*1 /100*1 | number : '1.2-2'}}</p>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col text-left size="6">
+              <strong>{{'Total' |translate}}:</strong>
+            </ion-col>
+            <ion-col text-right size="6" class="right-col">
+              <strong><span class="woocommerce-Price-currencySymbol">₹</span>{{product.product_total_price*1 /100*1 | number : '1.2-2'}}</strong>
+            </ion-col>
+          </ion-row>
+        </ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <h4>{{'Sub Total'|translate}}</h4>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-row class="row-subtotal">
+        <ion-col size="6">
+          <p>
+            {{'Products Price'|translate}}:
+          </p>
+        </ion-col>
+        <ion-col text-right size="6" class="subtotal-right">
+          <p>
+            <span class="woocommerce-Price-currencySymbol">₹</span>{{product_total_price*1 /100*1 | number : '1.2-2'}}
+          </p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <p>
+            {{'Shipping Cost'|translate}}:
+          </p>
+        </ion-col>
+        <ion-col text-right size="6" class="subtotal-right">
+          <p>
+            <span class="woocommerce-Price-currencySymbol">₹</span>{{CalAllShipingcost*1 /100*1 | number : '1.2-2'}}
+          </p>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6">
+          <p>
+            Coupon Discount
+          </p>
+        </ion-col>
+        <ion-col text-right size="6" class="subtotal-right">
+          <p>
+            <span class="woocommerce-Price-currencySymbol">₹</span>{{discountPrice*1 /100*1 | number : '1.2-2'}}
+          </p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <strong>
+            {{'Total'|translate}}
+          </strong>
+        </ion-col>
+        <ion-col text-right size="6" class="subtotal-right">
+          <strong><span class="woocommerce-Price-currencySymbol">₹</span>{{totalAfterDiscShipingFixed*1 /100*1 | number : '1.2-2'}}</strong>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+
+
+  <!-- <ion-card padding >
+    <ion-card-header no-padding>
+      <ion-card-subtitle>
+        <h3>Pay by wallet</h3>
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-input placeholder="Wallet"></ion-input>
+        <ion-button class="coupon-btn" slot="end" class="btn" type="submit"> APPLY</ion-button>
+      </ion-item>
+    </ion-card-content>
+  </ion-card> -->
+
+  <ion-row *ngIf="responseDatainfo?.wallet != 0">
+    <ion-col size="1" style="margin: 10px 10px 10px 10px;">
+      <ion-checkbox [(ngModel)]="checkboxes" (ionChange)="FillBilling(checkboxes)"></ion-checkbox>
+    </ion-col>
+
+    <ion-col size="10" style="margin: 0; font-size: 17px;">
+      Wallet Balance <br>
+      Available Balance <span class="woocommerce-Price-currencySymbol">₹</span>{{responseDatainfo?.wallet*1 /100*1}}
+    </ion-col>
+
+    </ion-row>
+  <!-- <ion-card>
+    <ion-card-header>
+      <h4>{{'Order Notes'|translate}}</h4>
+    </ion-card-header>
+    <ion-card-content class="card-disable">
+      <p class="note-para">
+        Note to the buyer
+      </p>
+    </ion-card-content>
+  </ion-card> -->
+
+  <ion-card *ngIf="totalAfterDiscShipingFixed != 0">
+    <ion-card-header>
+      <h4>{{'Payment Method'|translate}}</h4>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item lines="none" *ngIf="totalAfterDiscShipingFixed != 0">
+          <ion-label>{{'Select Payment Method'|translate}}</ion-label>
+          <ion-select (ionChange)="selectPayment($event.detail.value)">
+            okText="{{'Ok'|translate}}" cancelText="{{'Cancel'|translate}}">
+            <span *ngFor="let p of paymentMethods">
+              <ion-select-option [value]="p">{{p}}</ion-select-option>
+            </span>
+          </ion-select>
+        </ion-item>
+
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
+
+<ion-footer class="order-footer">
+  <ion-button *ngIf="totalAfterDiscShipingFixed != 0" color="secondary" (click)="goToThankYouPage()">
+    Continue
+  </ion-button>
+
+  <ion-button *ngIf="totalAfterDiscShipingFixed == 0" color="secondary" (click)="paywithwallet()">
+    Continue
+  </ion-button>
+
+</ion-footer>
