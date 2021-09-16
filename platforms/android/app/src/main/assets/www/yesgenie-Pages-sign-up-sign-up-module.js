@@ -8,17 +8,17 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * jQuery JavaScript Library v3.5.1
+ * jQuery JavaScript Library v3.6.0
  * https://jquery.com/
  *
  * Includes Sizzle.js
  * https://sizzlejs.com/
  *
- * Copyright JS Foundation and other contributors
+ * Copyright OpenJS Foundation and other contributors
  * Released under the MIT license
  * https://jquery.org/license
  *
- * Date: 2020-05-04T22:49Z
+ * Date: 2021-03-02T17:08Z
  */
 ( function( global, factory ) {
 
@@ -85,12 +85,16 @@ var support = {};
 
 var isFunction = function isFunction( obj ) {
 
-      // Support: Chrome <=57, Firefox <=52
-      // In some browsers, typeof returns "function" for HTML <object> elements
-      // (i.e., `typeof document.createElement( "object" ) === "function"`).
-      // We don't want to classify *any* DOM node as a function.
-      return typeof obj === "function" && typeof obj.nodeType !== "number";
-  };
+		// Support: Chrome <=57, Firefox <=52
+		// In some browsers, typeof returns "function" for HTML <object> elements
+		// (i.e., `typeof document.createElement( "object" ) === "function"`).
+		// We don't want to classify *any* DOM node as a function.
+		// Support: QtWeb <=3.8.5, WebKit <=534.34, wkhtmltopdf tool <=0.12.5
+		// Plus for old WebKit, typeof returns "function" for HTML collections
+		// (e.g., `typeof document.getElementsByTagName("div") === "function"`). (gh-4756)
+		return typeof obj === "function" && typeof obj.nodeType !== "number" &&
+			typeof obj.item !== "function";
+	};
 
 
 var isWindow = function isWindow( obj ) {
@@ -156,7 +160,7 @@ function toType( obj ) {
 
 
 var
-	version = "3.5.1",
+	version = "3.6.0",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
@@ -410,7 +414,7 @@ jQuery.extend( {
 			if ( isArrayLike( Object( arr ) ) ) {
 				jQuery.merge( ret,
 					typeof arr === "string" ?
-					[ arr ] : arr
+						[ arr ] : arr
 				);
 			} else {
 				push.call( ret, arr );
@@ -505,9 +509,9 @@ if ( typeof Symbol === "function" ) {
 
 // Populate the class2type map
 jQuery.each( "Boolean Number String Function Array Date RegExp Object Error Symbol".split( " " ),
-function( _i, name ) {
-	class2type[ "[object " + name + "]" ] = name.toLowerCase();
-} );
+	function( _i, name ) {
+		class2type[ "[object " + name + "]" ] = name.toLowerCase();
+	} );
 
 function isArrayLike( obj ) {
 
@@ -527,14 +531,14 @@ function isArrayLike( obj ) {
 }
 var Sizzle =
 /*!
- * Sizzle CSS Selector Engine v2.3.5
+ * Sizzle CSS Selector Engine v2.3.6
  * https://sizzlejs.com/
  *
  * Copyright JS Foundation and other contributors
  * Released under the MIT license
  * https://js.foundation/
  *
- * Date: 2020-03-14
+ * Date: 2021-02-16
  */
 ( function( window ) {
 var i,
@@ -1117,8 +1121,8 @@ support = Sizzle.support = {};
  * @returns {Boolean} True iff elem is a non-HTML XML node
  */
 isXML = Sizzle.isXML = function( elem ) {
-	var namespace = elem.namespaceURI,
-		docElem = ( elem.ownerDocument || elem ).documentElement;
+	var namespace = elem && elem.namespaceURI,
+		docElem = elem && ( elem.ownerDocument || elem ).documentElement;
 
 	// Support: IE <=8
 	// Assume HTML when documentElement doesn't yet exist, such as inside loading iframes
@@ -3033,9 +3037,9 @@ var rneedsContext = jQuery.expr.match.needsContext;
 
 function nodeName( elem, name ) {
 
-  return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
+	return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
 
-};
+}
 var rsingleTag = ( /^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|)$/i );
 
 
@@ -4006,8 +4010,8 @@ jQuery.extend( {
 			resolveContexts = Array( i ),
 			resolveValues = slice.call( arguments ),
 
-			// the master Deferred
-			master = jQuery.Deferred(),
+			// the primary Deferred
+			primary = jQuery.Deferred(),
 
 			// subordinate callback factory
 			updateFunc = function( i ) {
@@ -4015,30 +4019,30 @@ jQuery.extend( {
 					resolveContexts[ i ] = this;
 					resolveValues[ i ] = arguments.length > 1 ? slice.call( arguments ) : value;
 					if ( !( --remaining ) ) {
-						master.resolveWith( resolveContexts, resolveValues );
+						primary.resolveWith( resolveContexts, resolveValues );
 					}
 				};
 			};
 
 		// Single- and empty arguments are adopted like Promise.resolve
 		if ( remaining <= 1 ) {
-			adoptValue( singleValue, master.done( updateFunc( i ) ).resolve, master.reject,
+			adoptValue( singleValue, primary.done( updateFunc( i ) ).resolve, primary.reject,
 				!remaining );
 
 			// Use .then() to unwrap secondary thenables (cf. gh-3000)
-			if ( master.state() === "pending" ||
+			if ( primary.state() === "pending" ||
 				isFunction( resolveValues[ i ] && resolveValues[ i ].then ) ) {
 
-				return master.then();
+				return primary.then();
 			}
 		}
 
 		// Multiple arguments are aggregated like Promise.all array elements
 		while ( i-- ) {
-			adoptValue( resolveValues[ i ], updateFunc( i ), master.reject );
+			adoptValue( resolveValues[ i ], updateFunc( i ), primary.reject );
 		}
 
-		return master.promise();
+		return primary.promise();
 	}
 } );
 
@@ -4189,8 +4193,8 @@ var access = function( elems, fn, key, value, chainable, emptyGet, raw ) {
 			for ( ; i < len; i++ ) {
 				fn(
 					elems[ i ], key, raw ?
-					value :
-					value.call( elems[ i ], i, fn( elems[ i ], key ) )
+						value :
+						value.call( elems[ i ], i, fn( elems[ i ], key ) )
 				);
 			}
 		}
@@ -5098,10 +5102,7 @@ function buildFragment( elems, context, scripts, selection, ignored ) {
 }
 
 
-var
-	rkeyEvent = /^key/,
-	rmouseEvent = /^(?:mouse|pointer|contextmenu|drag|drop)|click/,
-	rtypenamespace = /^([^.]*)(?:\.(.+)|)/;
+var rtypenamespace = /^([^.]*)(?:\.(.+)|)/;
 
 function returnTrue() {
 	return true;
@@ -5396,8 +5397,8 @@ jQuery.event = {
 			event = jQuery.event.fix( nativeEvent ),
 
 			handlers = (
-					dataPriv.get( this, "events" ) || Object.create( null )
-				)[ event.type ] || [],
+				dataPriv.get( this, "events" ) || Object.create( null )
+			)[ event.type ] || [],
 			special = jQuery.event.special[ event.type ] || {};
 
 		// Use the fix-ed jQuery.Event rather than the (read-only) native event
@@ -5521,12 +5522,12 @@ jQuery.event = {
 			get: isFunction( hook ) ?
 				function() {
 					if ( this.originalEvent ) {
-							return hook( this.originalEvent );
+						return hook( this.originalEvent );
 					}
 				} :
 				function() {
 					if ( this.originalEvent ) {
-							return this.originalEvent[ name ];
+						return this.originalEvent[ name ];
 					}
 				},
 
@@ -5665,7 +5666,13 @@ function leverageNative( el, type, expectSync ) {
 						// Cancel the outer synthetic event
 						event.stopImmediatePropagation();
 						event.preventDefault();
-						return result.value;
+
+						// Support: Chrome 86+
+						// In Chrome, if an element having a focusout handler is blurred by
+						// clicking outside of it, it invokes the handler synchronously. If
+						// that handler calls `.remove()` on the element, the data is cleared,
+						// leaving `result` undefined. We need to guard against this.
+						return result && result.value;
 					}
 
 				// If this is an inner synthetic event for an event with a bubbling surrogate
@@ -5830,34 +5837,7 @@ jQuery.each( {
 	targetTouches: true,
 	toElement: true,
 	touches: true,
-
-	which: function( event ) {
-		var button = event.button;
-
-		// Add which for key events
-		if ( event.which == null && rkeyEvent.test( event.type ) ) {
-			return event.charCode != null ? event.charCode : event.keyCode;
-		}
-
-		// Add which for click: 1 === left; 2 === middle; 3 === right
-		if ( !event.which && button !== undefined && rmouseEvent.test( event.type ) ) {
-			if ( button & 1 ) {
-				return 1;
-			}
-
-			if ( button & 2 ) {
-				return 3;
-			}
-
-			if ( button & 4 ) {
-				return 2;
-			}
-
-			return 0;
-		}
-
-		return event.which;
-	}
+	which: true
 }, jQuery.event.addProp );
 
 jQuery.each( { focus: "focusin", blur: "focusout" }, function( type, delegateType ) {
@@ -5880,6 +5860,12 @@ jQuery.each( { focus: "focusin", blur: "focusout" }, function( type, delegateTyp
 			leverageNative( this, type );
 
 			// Return non-false to allow normal event-path propagation
+			return true;
+		},
+
+		// Suppress native focus or blur as it's already being fired
+		// in leverageNative.
+		_default: function() {
 			return true;
 		},
 
@@ -6550,6 +6536,10 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 		// set in CSS while `offset*` properties report correct values.
 		// Behavior in IE 9 is more subtle than in newer versions & it passes
 		// some versions of this test; make sure not to make it pass there!
+		//
+		// Support: Firefox 70+
+		// Only Firefox includes border widths
+		// in computed dimensions. (gh-4529)
 		reliableTrDimensions: function() {
 			var table, tr, trChild, trStyle;
 			if ( reliableTrDimensionsVal == null ) {
@@ -6557,9 +6547,22 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 				tr = document.createElement( "tr" );
 				trChild = document.createElement( "div" );
 
-				table.style.cssText = "position:absolute;left:-11111px";
+				table.style.cssText = "position:absolute;left:-11111px;border-collapse:separate";
+				tr.style.cssText = "border:1px solid";
+
+				// Support: Chrome 86+
+				// Height set through cssText does not get applied.
+				// Computed height then comes back as 0.
 				tr.style.height = "1px";
 				trChild.style.height = "9px";
+
+				// Support: Android 8 Chrome 86+
+				// In our bodyBackground.html iframe,
+				// display for all div elements is set to "inline",
+				// which causes a problem only in Android 8 Chrome 86.
+				// Ensuring the div is display: block
+				// gets around this issue.
+				trChild.style.display = "block";
 
 				documentElement
 					.appendChild( table )
@@ -6567,7 +6570,9 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 					.appendChild( trChild );
 
 				trStyle = window.getComputedStyle( tr );
-				reliableTrDimensionsVal = parseInt( trStyle.height ) > 3;
+				reliableTrDimensionsVal = ( parseInt( trStyle.height, 10 ) +
+					parseInt( trStyle.borderTopWidth, 10 ) +
+					parseInt( trStyle.borderBottomWidth, 10 ) ) === tr.offsetHeight;
 
 				documentElement.removeChild( table );
 			}
@@ -7031,10 +7036,10 @@ jQuery.each( [ "height", "width" ], function( _i, dimension ) {
 					// Running getBoundingClientRect on a disconnected node
 					// in IE throws an error.
 					( !elem.getClientRects().length || !elem.getBoundingClientRect().width ) ?
-						swap( elem, cssShow, function() {
-							return getWidthOrHeight( elem, dimension, extra );
-						} ) :
-						getWidthOrHeight( elem, dimension, extra );
+					swap( elem, cssShow, function() {
+						return getWidthOrHeight( elem, dimension, extra );
+					} ) :
+					getWidthOrHeight( elem, dimension, extra );
 			}
 		},
 
@@ -7093,7 +7098,7 @@ jQuery.cssHooks.marginLeft = addGetHookIf( support.reliableMarginLeft,
 					swap( elem, { marginLeft: 0 }, function() {
 						return elem.getBoundingClientRect().left;
 					} )
-				) + "px";
+			) + "px";
 		}
 	}
 );
@@ -7232,7 +7237,7 @@ Tween.propHooks = {
 			if ( jQuery.fx.step[ tween.prop ] ) {
 				jQuery.fx.step[ tween.prop ]( tween );
 			} else if ( tween.elem.nodeType === 1 && (
-					jQuery.cssHooks[ tween.prop ] ||
+				jQuery.cssHooks[ tween.prop ] ||
 					tween.elem.style[ finalPropName( tween.prop ) ] != null ) ) {
 				jQuery.style( tween.elem, tween.prop, tween.now + tween.unit );
 			} else {
@@ -7477,7 +7482,7 @@ function defaultPrefilter( elem, props, opts ) {
 
 			anim.done( function() {
 
-			/* eslint-enable no-loop-func */
+				/* eslint-enable no-loop-func */
 
 				// The final step of a "hide" animation is actually hiding the element
 				if ( !hidden ) {
@@ -7597,7 +7602,7 @@ function Animation( elem, properties, options ) {
 			tweens: [],
 			createTween: function( prop, end ) {
 				var tween = jQuery.Tween( elem, animation.opts, prop, end,
-						animation.opts.specialEasing[ prop ] || animation.opts.easing );
+					animation.opts.specialEasing[ prop ] || animation.opts.easing );
 				animation.tweens.push( tween );
 				return tween;
 			},
@@ -7770,7 +7775,8 @@ jQuery.fn.extend( {
 					anim.stop( true );
 				}
 			};
-			doAnimation.finish = doAnimation;
+
+		doAnimation.finish = doAnimation;
 
 		return empty || optall.queue === false ?
 			this.each( doAnimation ) :
@@ -8410,8 +8416,8 @@ jQuery.fn.extend( {
 				if ( this.setAttribute ) {
 					this.setAttribute( "class",
 						className || value === false ?
-						"" :
-						dataPriv.get( this, "__className__" ) || ""
+							"" :
+							dataPriv.get( this, "__className__" ) || ""
 					);
 				}
 			}
@@ -8426,7 +8432,7 @@ jQuery.fn.extend( {
 		while ( ( elem = this[ i++ ] ) ) {
 			if ( elem.nodeType === 1 &&
 				( " " + stripAndCollapse( getClass( elem ) ) + " " ).indexOf( className ) > -1 ) {
-					return true;
+				return true;
 			}
 		}
 
@@ -8716,9 +8722,7 @@ jQuery.extend( jQuery.event, {
 				special.bindType || type;
 
 			// jQuery handler
-			handle = (
-					dataPriv.get( cur, "events" ) || Object.create( null )
-				)[ event.type ] &&
+			handle = ( dataPriv.get( cur, "events" ) || Object.create( null ) )[ event.type ] &&
 				dataPriv.get( cur, "handle" );
 			if ( handle ) {
 				handle.apply( cur, data );
@@ -8865,7 +8869,7 @@ var rquery = ( /\?/ );
 
 // Cross-browser xml parsing
 jQuery.parseXML = function( data ) {
-	var xml;
+	var xml, parserErrorElem;
 	if ( !data || typeof data !== "string" ) {
 		return null;
 	}
@@ -8874,12 +8878,17 @@ jQuery.parseXML = function( data ) {
 	// IE throws on parseFromString with invalid input.
 	try {
 		xml = ( new window.DOMParser() ).parseFromString( data, "text/xml" );
-	} catch ( e ) {
-		xml = undefined;
-	}
+	} catch ( e ) {}
 
-	if ( !xml || xml.getElementsByTagName( "parsererror" ).length ) {
-		jQuery.error( "Invalid XML: " + data );
+	parserErrorElem = xml && xml.getElementsByTagName( "parsererror" )[ 0 ];
+	if ( !xml || parserErrorElem ) {
+		jQuery.error( "Invalid XML: " + (
+			parserErrorElem ?
+				jQuery.map( parserErrorElem.childNodes, function( el ) {
+					return el.textContent;
+				} ).join( "\n" ) :
+				data
+		) );
 	}
 	return xml;
 };
@@ -8980,16 +8989,14 @@ jQuery.fn.extend( {
 			// Can add propHook for "elements" to filter or add form elements
 			var elements = jQuery.prop( this, "elements" );
 			return elements ? jQuery.makeArray( elements ) : this;
-		} )
-		.filter( function() {
+		} ).filter( function() {
 			var type = this.type;
 
 			// Use .is( ":disabled" ) so that fieldset[disabled] works
 			return this.name && !jQuery( this ).is( ":disabled" ) &&
 				rsubmittable.test( this.nodeName ) && !rsubmitterTypes.test( type ) &&
 				( this.checked || !rcheckableType.test( type ) );
-		} )
-		.map( function( _i, elem ) {
+		} ).map( function( _i, elem ) {
 			var val = jQuery( this ).val();
 
 			if ( val == null ) {
@@ -9042,7 +9049,8 @@ var
 
 	// Anchor tag for parsing the document origin
 	originAnchor = document.createElement( "a" );
-	originAnchor.href = location.href;
+
+originAnchor.href = location.href;
 
 // Base "constructor" for jQuery.ajaxPrefilter and jQuery.ajaxTransport
 function addToPrefiltersOrTransports( structure ) {
@@ -9423,8 +9431,8 @@ jQuery.extend( {
 			// Context for global events is callbackContext if it is a DOM node or jQuery collection
 			globalEventContext = s.context &&
 				( callbackContext.nodeType || callbackContext.jquery ) ?
-					jQuery( callbackContext ) :
-					jQuery.event,
+				jQuery( callbackContext ) :
+				jQuery.event,
 
 			// Deferreds
 			deferred = jQuery.Deferred(),
@@ -9736,8 +9744,10 @@ jQuery.extend( {
 				response = ajaxHandleResponses( s, jqXHR, responses );
 			}
 
-			// Use a noop converter for missing script
-			if ( !isSuccess && jQuery.inArray( "script", s.dataTypes ) > -1 ) {
+			// Use a noop converter for missing script but not if jsonp
+			if ( !isSuccess &&
+				jQuery.inArray( "script", s.dataTypes ) > -1 &&
+				jQuery.inArray( "json", s.dataTypes ) < 0 ) {
 				s.converters[ "text script" ] = function() {};
 			}
 
@@ -10475,12 +10485,6 @@ jQuery.offset = {
 			options.using.call( elem, props );
 
 		} else {
-			if ( typeof props.top === "number" ) {
-				props.top += "px";
-			}
-			if ( typeof props.left === "number" ) {
-				props.left += "px";
-			}
 			curElem.css( props );
 		}
 	}
@@ -10649,8 +10653,11 @@ jQuery.each( [ "top", "left" ], function( _i, prop ) {
 
 // Create innerHeight, innerWidth, height, width, outerHeight and outerWidth methods
 jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
-	jQuery.each( { padding: "inner" + name, content: type, "": "outer" + name },
-		function( defaultExtra, funcName ) {
+	jQuery.each( {
+		padding: "inner" + name,
+		content: type,
+		"": "outer" + name
+	}, function( defaultExtra, funcName ) {
 
 		// Margin is only for outerHeight, outerWidth
 		jQuery.fn[ funcName ] = function( margin, value ) {
@@ -10735,7 +10742,8 @@ jQuery.fn.extend( {
 	}
 } );
 
-jQuery.each( ( "blur focus focusin focusout resize scroll click dblclick " +
+jQuery.each(
+	( "blur focus focusin focusout resize scroll click dblclick " +
 	"mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
 	"change select submit keydown keypress keyup contextmenu" ).split( " " ),
 	function( _i, name ) {
@@ -10746,7 +10754,8 @@ jQuery.each( ( "blur focus focusin focusout resize scroll click dblclick " +
 				this.on( name, null, data, fn ) :
 				this.trigger( name );
 		};
-	} );
+	}
+);
 
 
 
@@ -10956,7 +10965,7 @@ module.exports = "\n<ion-content class=\"thankyou-content\">\n  <div class=\"hea
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".thankyou-content {\n  --background: url('login-img.png') no-repeat center center fixed;\n  width: 100%;\n  background-size: cover; }\n  .thankyou-content .header-card {\n    margin: 0;\n    border-bottom-left-radius: 40px;\n    border-bottom-right-radius: 40px; }\n  .thankyou-content .header-card .header-content {\n      width: 100%;\n      margin-top: -25px;\n      text-align: center; }\n  .thankyou-content .header-card .header-content ion-avatar {\n        margin-left: auto;\n        margin-right: auto;\n        background: white; }\n  .thankyou-content .header-card .header-content ion-avatar div ion-icon {\n          font-size: 50px;\n          margin-top: 10px; }\n  .thankyou-content .header-card .header-content h2 {\n        font-size: 24px;\n        font-family: sans-serif;\n        text-align: center;\n        margin-top: 5px;\n        color: #165992; }\n  .thankyou-content .list {\n    margin-left: 16px;\n    margin-right: 16px;\n    background: transparent !important;\n    padding-top: px;\n    padding-bottom: 0; }\n  .thankyou-content .list ion-item {\n      position: relative;\n      border-radius: 10px;\n      border: solid 1px #f3edea;\n      --background: white;\n      margin-bottom: 10px; }\n  .thankyou-content .list ion-item ion-input {\n        --placeholder-color: var(--ion-color-primary);\n        --placeholder-opacity: 1; }\n  .thankyou-content .list ion-item ion-icon {\n        font-size: 17px;\n        color: black; }\n  .thankyou-content .list ion-item p {\n        font-size: 16px;\n        font-family: \"roboto-regular\";\n        margin-top: auto;\n        margin-bottom: auto;\n        color: black; }\n  .thankyou-content .item-checkbox {\n    --background: transparent;\n    --inner-padding-end: 70px; }\n  .thankyou-content .item-checkbox ion-checkbox {\n      --background-checked: var(--ion-color-primary);\n      --border-color-checked: var(--ion-color-primary);\n      margin-right: 15px; }\n  .thankyou-content .item-checkbox ion-label {\n      font-size: 12px;\n      font-family: \"roboto-regular\";\n      white-space: pre-wrap; }\n  .thankyou-content .btn-div {\n    text-align: center;\n    width: 100%;\n    margin-top: 5px; }\n  .thankyou-content .btn-div ion-button {\n      height: 42px;\n      --background: var(--ion-color-primary);\n      width: 45%;\n      --box-shadow: none;\n      --border-radius: 20px;\n      font-family: \"roboto-regular\";\n      font-size: 13px; }\n  .thankyou-content .grid-or ion-col:first-child div, .thankyou-content .grid-or ion-col:last-child div {\n    height: 1px;\n    width: 100%;\n    background: black; }\n  .thankyou-content .grid-or ion-col:first-child {\n    padding-left: 25px; }\n  .thankyou-content .grid-or ion-col:last-child {\n    padding-right: 25px; }\n  .thankyou-content .grid-or ion-col p {\n    font-family: \"roboto-regular\";\n    font-size: 10px;\n    text-align: center;\n    color: black; }\n  .thankyou-content .grid-icons ion-col:first-child ion-avatar {\n    margin-left: auto !important; }\n  .thankyou-content .grid-icons ion-col:last-child ion-avatar {\n    margin-right: auto !important; }\n  .thankyou-content .grid-icons ion-col ion-avatar {\n    height: 46px;\n    width: 46px;\n    border: solid lightgray 1px; }\n  .thankyou-content .grid-icons ion-col ion-avatar ion-icon {\n      font-size: 20px;\n      margin: 12px 0 0 12px; }\n  .thankyou-content .grid-icons ion-col .avatar-center {\n    margin-left: auto;\n    margin-right: auto; }\n  .edit-img {\n  position: absolute;\n  left: 55%;\n  width: 9%;\n  top: 9%; }\n  .LoginLogo {\n  width: 200px;\n  height: 130px;\n  display: block;\n  margin: 0 auto;\n  padding-top: 60px; }\n  .display {\n  display: block; }\n  .nodisplay {\n  display: none; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Wb2x1bWVzL015IFN0dWZmL3llcy0yL3NyYy9hcHAveWVzZ2VuaWUvUGFnZXMvc2lnbi11cC9zaWduLXVwLnBhZ2Uuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFTQTtFQUNHLGdFQUFhO0VBQ1YsV0FBVztFQUNYLHNCQUFzQixFQUFBO0VBSDVCO0lBTVEsU0FBUztJQUNULCtCQUErQjtJQUMvQixnQ0FBZ0MsRUFBQTtFQVJ4QztNQVVVLFdBQVc7TUFDWCxpQkFBaUI7TUFDakIsa0JBQWtCLEVBQUE7RUFaNUI7UUFjWSxpQkFBaUI7UUFDakIsa0JBQWtCO1FBQ2xCLGlCQUFpQixFQUFBO0VBaEI3QjtVQW1CZ0IsZUFBZTtVQUNmLGdCQUFnQixFQUFBO0VBcEJoQztRQXlCUSxlQUFlO1FBQ2YsdUJBQXVCO1FBQ3ZCLGtCQUFrQjtRQUNsQixlQUFlO1FBQ2YsY0FBYyxFQUFBO0VBN0J0QjtJQWtDUSxpQkFBaUI7SUFDakIsa0JBQWtCO0lBQ2xCLGtDQUFrQztJQUNsQyxlQUFlO0lBQ2YsaUJBQWlCLEVBQUE7RUF0Q3pCO01Bd0NVLGtCQUFrQjtNQUNsQixtQkFBbUI7TUFDbkIseUJBQXlCO01BQ3pCLG1CQUFhO01BQ2IsbUJBQW1CLEVBQUE7RUE1QzdCO1FBOENZLDZDQUFvQjtRQUNwQix3QkFBc0IsRUFBQTtFQS9DbEM7UUFrRFksZUFBZTtRQUNmLFlBQVksRUFBQTtFQW5EeEI7UUFzRFksZUFBZTtRQUNmLDZCQUE2QjtRQUM3QixnQkFBZ0I7UUFDaEIsbUJBQW1CO1FBQ25CLFlBQVksRUFBQTtFQTFEeEI7SUErRFEseUJBQWE7SUFDYix5QkFBb0IsRUFBQTtFQWhFNUI7TUFrRVUsOENBQXFCO01BQ3JCLGdEQUF1QjtNQUN2QixrQkFBa0IsRUFBQTtFQXBFNUI7TUF1RVUsZUFBZTtNQUNmLDZCQUE2QjtNQUM3QixxQkFBcUIsRUFBQTtFQXpFL0I7SUE2RVEsa0JBQWtCO0lBQ2xCLFdBQVc7SUFDWCxlQUFlLEVBQUE7RUEvRXZCO01BaUZVLFlBQVk7TUFDWixzQ0FBYTtNQUNiLFVBQVU7TUFDVixrQkFBYTtNQUNiLHFCQUFnQjtNQUNoQiw2QkFBNkI7TUFDN0IsZUFBZSxFQUFBO0VBdkZ6QjtJQStGYyxXQUFXO0lBQ1gsV0FBVztJQUNYLGlCQUFpQixFQUFBO0VBakcvQjtJQXFHWSxrQkFBa0IsRUFBQTtFQXJHOUI7SUF3R1ksbUJBQW1CLEVBQUE7RUF4Ry9CO0lBMkdZLDZCQUE2QjtJQUM3QixlQUFlO0lBQ2Ysa0JBQWtCO0lBQ2xCLFlBQVksRUFBQTtFQTlHeEI7SUFzSGMsNEJBQTRCLEVBQUE7RUF0SDFDO0lBMkhjLDZCQUE2QixFQUFBO0VBM0gzQztJQStIWSxZQUFZO0lBQ1osV0FBVztJQUNYLDJCQUEyQixFQUFBO0VBakl2QztNQW1JYyxlQUFlO01BQ2YscUJBQXFCLEVBQUE7RUFwSW5DO0lBd0lZLGlCQUFpQjtJQUNqQixrQkFBa0IsRUFBQTtFQU0xQjtFQUNFLGtCQUFrQjtFQUNsQixTQUFTO0VBQ1QsU0FBUztFQUNULE9BQU8sRUFBQTtFQUVUO0VBRUUsWUFBWTtFQUNaLGFBQWE7RUFDYixjQUFjO0VBQ2QsY0FBYztFQUNkLGlCQUFnQixFQUFBO0VBSWxCO0VBQ0UsY0FBYyxFQUFBO0VBRWhCO0VBQ0UsYUFBWSxFQUFBIiwiZmlsZSI6InNyYy9hcHAveWVzZ2VuaWUvUGFnZXMvc2lnbi11cC9zaWduLXVwLnBhZ2Uuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi8vIGlvbi1jb250ZW50e1xyXG4vLyAgIC0tYmFja2dyb3VuZDogdXJsKC4uLy4uLy4uLy4uL2Fzc2V0cy9jcmVhdC1hY2NvdW50LnBuZyluby1yZXBlYXQgZml4ZWQ7XHJcbi8vICAgYmFja2dyb3VuZC1zaXplOiBjb3ZlcjtcclxuLy8gICBiYWNrZ3JvdW5kLXJlcGVhdDogbm8tcmVwZWF0O1xyXG4vLyAgIGJhY2tncm91bmQtcG9zaXRpb246IGNlbnRlcjtcclxuXHJcbi8vIH1cclxuXHJcblxyXG4udGhhbmt5b3UtY29udGVudCB7XHJcbiAgIC0tYmFja2dyb3VuZDogdXJsKC4uLy4uLy4uLy4uL2Fzc2V0cy9sb2dpbi1pbWcucG5nKSBuby1yZXBlYXQgY2VudGVyIGNlbnRlciBmaXhlZDtcclxuICAgICAgd2lkdGg6IDEwMCU7XHJcbiAgICAgIGJhY2tncm91bmQtc2l6ZTogY292ZXI7XHJcblxyXG4gICAgICAuaGVhZGVyLWNhcmQge1xyXG4gICAgICAgIG1hcmdpbjogMDtcclxuICAgICAgICBib3JkZXItYm90dG9tLWxlZnQtcmFkaXVzOiA0MHB4O1xyXG4gICAgICAgIGJvcmRlci1ib3R0b20tcmlnaHQtcmFkaXVzOiA0MHB4O1xyXG4gICAgICAgIC5oZWFkZXItY29udGVudCB7XHJcbiAgICAgICAgICB3aWR0aDogMTAwJTtcclxuICAgICAgICAgIG1hcmdpbi10b3A6IC0yNXB4O1xyXG4gICAgICAgICAgdGV4dC1hbGlnbjogY2VudGVyO1xyXG4gICAgICAgICAgaW9uLWF2YXRhciB7XHJcbiAgICAgICAgICAgIG1hcmdpbi1sZWZ0OiBhdXRvO1xyXG4gICAgICAgICAgICBtYXJnaW4tcmlnaHQ6IGF1dG87XHJcbiAgICAgICAgICAgIGJhY2tncm91bmQ6IHdoaXRlO1xyXG4gICAgICAgICAgICBkaXYge1xyXG4gICAgICAgICAgICAgIGlvbi1pY29uIHtcclxuICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogNTBweDtcclxuICAgICAgICAgICAgICAgIG1hcmdpbi10b3A6IDEwcHg7XHJcbiAgICAgICAgICAgICAgfVxyXG4gICAgICAgICAgICB9XHJcbiAgICAgICAgICB9XHJcbiAgICAgICAgICBoMiB7XHJcbiAgICAgICAgZm9udC1zaXplOiAyNHB4O1xyXG4gICAgICAgIGZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmO1xyXG4gICAgICAgIHRleHQtYWxpZ246IGNlbnRlcjtcclxuICAgICAgICBtYXJnaW4tdG9wOiA1cHg7IFxyXG4gICAgICAgIGNvbG9yOiAjMTY1OTkyO1xyXG4gICAgICAgICAgfVxyXG4gICAgICAgIH1cclxuICAgICAgfVxyXG4gICAgICAubGlzdCB7XHJcbiAgICAgICAgbWFyZ2luLWxlZnQ6IDE2cHg7XHJcbiAgICAgICAgbWFyZ2luLXJpZ2h0OiAxNnB4O1xyXG4gICAgICAgIGJhY2tncm91bmQ6IHRyYW5zcGFyZW50ICFpbXBvcnRhbnQ7XHJcbiAgICAgICAgcGFkZGluZy10b3A6IHB4O1xyXG4gICAgICAgIHBhZGRpbmctYm90dG9tOiAwO1xyXG4gICAgICAgIGlvbi1pdGVtIHtcclxuICAgICAgICAgIHBvc2l0aW9uOiByZWxhdGl2ZTtcclxuICAgICAgICAgIGJvcmRlci1yYWRpdXM6IDEwcHg7XHJcbiAgICAgICAgICBib3JkZXI6IHNvbGlkIDFweCAjZjNlZGVhO1xyXG4gICAgICAgICAgLS1iYWNrZ3JvdW5kOiB3aGl0ZTtcclxuICAgICAgICAgIG1hcmdpbi1ib3R0b206IDEwcHg7XHJcbiAgICAgICAgICBpb24taW5wdXQge1xyXG4gICAgICAgICAgICAtLXBsYWNlaG9sZGVyLWNvbG9yOiB2YXIoLS1pb24tY29sb3ItcHJpbWFyeSk7XHJcbiAgICAgICAgICAgIC0tcGxhY2Vob2xkZXItb3BhY2l0eTogMTtcclxuICAgICAgICAgIH1cclxuICAgICAgICAgIGlvbi1pY29uIHtcclxuICAgICAgICAgICAgZm9udC1zaXplOiAxN3B4O1xyXG4gICAgICAgICAgICBjb2xvcjogYmxhY2s7XHJcbiAgICAgICAgICB9XHJcbiAgICAgICAgICBwIHtcclxuICAgICAgICAgICAgZm9udC1zaXplOiAxNnB4O1xyXG4gICAgICAgICAgICBmb250LWZhbWlseTogXCJyb2JvdG8tcmVndWxhclwiO1xyXG4gICAgICAgICAgICBtYXJnaW4tdG9wOiBhdXRvO1xyXG4gICAgICAgICAgICBtYXJnaW4tYm90dG9tOiBhdXRvO1xyXG4gICAgICAgICAgICBjb2xvcjogYmxhY2s7XHJcbiAgICAgICAgICB9XHJcbiAgICAgICAgfVxyXG4gICAgICB9XHJcbiAgICAgIC5pdGVtLWNoZWNrYm94IHtcclxuICAgICAgICAtLWJhY2tncm91bmQ6IHRyYW5zcGFyZW50O1xyXG4gICAgICAgIC0taW5uZXItcGFkZGluZy1lbmQ6IDcwcHg7XHJcbiAgICAgICAgaW9uLWNoZWNrYm94IHtcclxuICAgICAgICAgIC0tYmFja2dyb3VuZC1jaGVja2VkOiB2YXIoLS1pb24tY29sb3ItcHJpbWFyeSk7XHJcbiAgICAgICAgICAtLWJvcmRlci1jb2xvci1jaGVja2VkOiB2YXIoLS1pb24tY29sb3ItcHJpbWFyeSk7XHJcbiAgICAgICAgICBtYXJnaW4tcmlnaHQ6IDE1cHg7XHJcbiAgICAgICAgfVxyXG4gICAgICAgIGlvbi1sYWJlbCB7XHJcbiAgICAgICAgICBmb250LXNpemU6IDEycHg7XHJcbiAgICAgICAgICBmb250LWZhbWlseTogXCJyb2JvdG8tcmVndWxhclwiO1xyXG4gICAgICAgICAgd2hpdGUtc3BhY2U6IHByZS13cmFwO1xyXG4gICAgICAgIH1cclxuICAgICAgfVxyXG4gICAgICAuYnRuLWRpdiB7XHJcbiAgICAgICAgdGV4dC1hbGlnbjogY2VudGVyO1xyXG4gICAgICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgICAgIG1hcmdpbi10b3A6IDVweDtcclxuICAgICAgICBpb24tYnV0dG9uIHtcclxuICAgICAgICAgIGhlaWdodDogNDJweDtcclxuICAgICAgICAgIC0tYmFja2dyb3VuZDogdmFyKC0taW9uLWNvbG9yLXByaW1hcnkpO1xyXG4gICAgICAgICAgd2lkdGg6IDQ1JTtcclxuICAgICAgICAgIC0tYm94LXNoYWRvdzogbm9uZTtcclxuICAgICAgICAgIC0tYm9yZGVyLXJhZGl1czogMjBweDtcclxuICAgICAgICAgIGZvbnQtZmFtaWx5OiBcInJvYm90by1yZWd1bGFyXCI7XHJcbiAgICAgICAgICBmb250LXNpemU6IDEzcHg7XHJcbiAgICAgICAgfVxyXG4gICAgICB9XHJcbiAgICAgIC5ncmlkLW9yIHtcclxuICAgICAgICBpb24tY29sIHtcclxuICAgICAgICAgICY6Zmlyc3QtY2hpbGQsXHJcbiAgICAgICAgICAmOmxhc3QtY2hpbGQge1xyXG4gICAgICAgICAgICBkaXYge1xyXG4gICAgICAgICAgICAgIGhlaWdodDogMXB4O1xyXG4gICAgICAgICAgICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgICAgICAgICAgIGJhY2tncm91bmQ6IGJsYWNrO1xyXG4gICAgICAgICAgICB9XHJcbiAgICAgICAgICB9XHJcbiAgICAgICAgICAmOmZpcnN0LWNoaWxkIHtcclxuICAgICAgICAgICAgcGFkZGluZy1sZWZ0OiAyNXB4O1xyXG4gICAgICAgICAgfVxyXG4gICAgICAgICAgJjpsYXN0LWNoaWxkIHtcclxuICAgICAgICAgICAgcGFkZGluZy1yaWdodDogMjVweDtcclxuICAgICAgICAgIH1cclxuICAgICAgICAgIHAge1xyXG4gICAgICAgICAgICBmb250LWZhbWlseTogXCJyb2JvdG8tcmVndWxhclwiO1xyXG4gICAgICAgICAgICBmb250LXNpemU6IDEwcHg7XHJcbiAgICAgICAgICAgIHRleHQtYWxpZ246IGNlbnRlcjtcclxuICAgICAgICAgICAgY29sb3I6IGJsYWNrO1xyXG4gICAgICAgICAgfVxyXG4gICAgICAgIH1cclxuICAgICAgfVxyXG4gICAgICAuZ3JpZC1pY29ucyB7XHJcbiAgICAgICAgaW9uLWNvbCB7XHJcbiAgICAgICAgICAmOmZpcnN0LWNoaWxkIHtcclxuICAgICAgICAgICAgaW9uLWF2YXRhciB7XHJcbiAgICAgICAgICAgICAgbWFyZ2luLWxlZnQ6IGF1dG8gIWltcG9ydGFudDtcclxuICAgICAgICAgICAgfVxyXG4gICAgICAgICAgfVxyXG4gICAgICAgICAgJjpsYXN0LWNoaWxkIHtcclxuICAgICAgICAgICAgaW9uLWF2YXRhciB7XHJcbiAgICAgICAgICAgICAgbWFyZ2luLXJpZ2h0OiBhdXRvICFpbXBvcnRhbnQ7XHJcbiAgICAgICAgICAgIH1cclxuICAgICAgICAgIH1cclxuICAgICAgICAgIGlvbi1hdmF0YXIge1xyXG4gICAgICAgICAgICBoZWlnaHQ6IDQ2cHg7XHJcbiAgICAgICAgICAgIHdpZHRoOiA0NnB4O1xyXG4gICAgICAgICAgICBib3JkZXI6IHNvbGlkIGxpZ2h0Z3JheSAxcHg7XHJcbiAgICAgICAgICAgIGlvbi1pY29uIHtcclxuICAgICAgICAgICAgICBmb250LXNpemU6IDIwcHg7XHJcbiAgICAgICAgICAgICAgbWFyZ2luOiAxMnB4IDAgMCAxMnB4O1xyXG4gICAgICAgICAgICB9XHJcbiAgICAgICAgICB9XHJcbiAgICAgICAgICAuYXZhdGFyLWNlbnRlciB7XHJcbiAgICAgICAgICAgIG1hcmdpbi1sZWZ0OiBhdXRvO1xyXG4gICAgICAgICAgICBtYXJnaW4tcmlnaHQ6IGF1dG87XHJcbiAgICAgICAgICB9XHJcbiAgICAgICAgfVxyXG4gICAgICB9XHJcbiAgICB9XHJcbiAgXHJcbiAgICAuZWRpdC1pbWd7XHJcbiAgICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcclxuICAgICAgbGVmdDogNTUlO1xyXG4gICAgICB3aWR0aDogOSU7XHJcbiAgICAgIHRvcDogOSU7XHJcbiAgICB9XHJcbiAgICAuTG9naW5Mb2dve1xyXG5cclxuICAgICAgd2lkdGg6IDIwMHB4O1xyXG4gICAgICBoZWlnaHQ6IDEzMHB4O1xyXG4gICAgICBkaXNwbGF5OiBibG9jaztcclxuICAgICAgbWFyZ2luOiAwIGF1dG87XHJcbiAgICAgIHBhZGRpbmctdG9wOjYwcHg7XHJcbiAgXHJcbiAgICB9XHJcblxyXG4gICAgLmRpc3BsYXl7XHJcbiAgICAgIGRpc3BsYXk6IGJsb2NrO1xyXG4gICAgfVxyXG4gICAgLm5vZGlzcGxheXtcclxuICAgICAgZGlzcGxheTpub25lO1xyXG4gICAgfSJdfQ== */"
+module.exports = ".thankyou-content {\n  --background: url('login-img.png') no-repeat center center fixed;\n  width: 100%;\n  background-size: cover; }\n  .thankyou-content .header-card {\n    margin: 0;\n    border-bottom-left-radius: 40px;\n    border-bottom-right-radius: 40px; }\n  .thankyou-content .header-card .header-content {\n      width: 100%;\n      margin-top: -25px;\n      text-align: center; }\n  .thankyou-content .header-card .header-content ion-avatar {\n        margin-left: auto;\n        margin-right: auto;\n        background: white; }\n  .thankyou-content .header-card .header-content ion-avatar div ion-icon {\n          font-size: 50px;\n          margin-top: 10px; }\n  .thankyou-content .header-card .header-content h2 {\n        font-size: 24px;\n        font-family: sans-serif;\n        text-align: center;\n        margin-top: 5px;\n        color: #165992; }\n  .thankyou-content .list {\n    margin-left: 16px;\n    margin-right: 16px;\n    background: transparent !important;\n    padding-top: px;\n    padding-bottom: 0; }\n  .thankyou-content .list ion-item {\n      position: relative;\n      border-radius: 10px;\n      border: solid 1px #f3edea;\n      --background: white;\n      margin-bottom: 10px; }\n  .thankyou-content .list ion-item ion-input {\n        --placeholder-color: var(--ion-color-primary);\n        --placeholder-opacity: 1; }\n  .thankyou-content .list ion-item ion-icon {\n        font-size: 17px;\n        color: black; }\n  .thankyou-content .list ion-item p {\n        font-size: 16px;\n        font-family: \"roboto-regular\";\n        margin-top: auto;\n        margin-bottom: auto;\n        color: black; }\n  .thankyou-content .item-checkbox {\n    --background: transparent;\n    --inner-padding-end: 70px; }\n  .thankyou-content .item-checkbox ion-checkbox {\n      --background-checked: var(--ion-color-primary);\n      --border-color-checked: var(--ion-color-primary);\n      margin-right: 15px; }\n  .thankyou-content .item-checkbox ion-label {\n      font-size: 12px;\n      font-family: \"roboto-regular\";\n      white-space: pre-wrap; }\n  .thankyou-content .btn-div {\n    text-align: center;\n    width: 100%;\n    margin-top: 5px; }\n  .thankyou-content .btn-div ion-button {\n      height: 42px;\n      --background: var(--ion-color-primary);\n      width: 45%;\n      --box-shadow: none;\n      --border-radius: 20px;\n      font-family: \"roboto-regular\";\n      font-size: 13px; }\n  .thankyou-content .grid-or ion-col:first-child div, .thankyou-content .grid-or ion-col:last-child div {\n    height: 1px;\n    width: 100%;\n    background: black; }\n  .thankyou-content .grid-or ion-col:first-child {\n    padding-left: 25px; }\n  .thankyou-content .grid-or ion-col:last-child {\n    padding-right: 25px; }\n  .thankyou-content .grid-or ion-col p {\n    font-family: \"roboto-regular\";\n    font-size: 10px;\n    text-align: center;\n    color: black; }\n  .thankyou-content .grid-icons ion-col:first-child ion-avatar {\n    margin-left: auto !important; }\n  .thankyou-content .grid-icons ion-col:last-child ion-avatar {\n    margin-right: auto !important; }\n  .thankyou-content .grid-icons ion-col ion-avatar {\n    height: 46px;\n    width: 46px;\n    border: solid lightgray 1px; }\n  .thankyou-content .grid-icons ion-col ion-avatar ion-icon {\n      font-size: 20px;\n      margin: 12px 0 0 12px; }\n  .thankyou-content .grid-icons ion-col .avatar-center {\n    margin-left: auto;\n    margin-right: auto; }\n  .edit-img {\n  position: absolute;\n  left: 55%;\n  width: 9%;\n  top: 9%; }\n  .LoginLogo {\n  width: 200px;\n  height: 130px;\n  display: block;\n  margin: 0 auto;\n  padding-top: 60px; }\n  .display {\n  display: block; }\n  .nodisplay {\n  display: none; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9BcHBsZS9Eb2N1bWVudHMveWVzZ2VuaWUvc3JjL2FwcC95ZXNnZW5pZS9QYWdlcy9zaWduLXVwL3NpZ24tdXAucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQVNBO0VBQ0csZ0VBQWE7RUFDVixXQUFXO0VBQ1gsc0JBQXNCLEVBQUE7RUFINUI7SUFNUSxTQUFTO0lBQ1QsK0JBQStCO0lBQy9CLGdDQUFnQyxFQUFBO0VBUnhDO01BVVUsV0FBVztNQUNYLGlCQUFpQjtNQUNqQixrQkFBa0IsRUFBQTtFQVo1QjtRQWNZLGlCQUFpQjtRQUNqQixrQkFBa0I7UUFDbEIsaUJBQWlCLEVBQUE7RUFoQjdCO1VBbUJnQixlQUFlO1VBQ2YsZ0JBQWdCLEVBQUE7RUFwQmhDO1FBeUJRLGVBQWU7UUFDZix1QkFBdUI7UUFDdkIsa0JBQWtCO1FBQ2xCLGVBQWU7UUFDZixjQUFjLEVBQUE7RUE3QnRCO0lBa0NRLGlCQUFpQjtJQUNqQixrQkFBa0I7SUFDbEIsa0NBQWtDO0lBQ2xDLGVBQWU7SUFDZixpQkFBaUIsRUFBQTtFQXRDekI7TUF3Q1Usa0JBQWtCO01BQ2xCLG1CQUFtQjtNQUNuQix5QkFBeUI7TUFDekIsbUJBQWE7TUFDYixtQkFBbUIsRUFBQTtFQTVDN0I7UUE4Q1ksNkNBQW9CO1FBQ3BCLHdCQUFzQixFQUFBO0VBL0NsQztRQWtEWSxlQUFlO1FBQ2YsWUFBWSxFQUFBO0VBbkR4QjtRQXNEWSxlQUFlO1FBQ2YsNkJBQTZCO1FBQzdCLGdCQUFnQjtRQUNoQixtQkFBbUI7UUFDbkIsWUFBWSxFQUFBO0VBMUR4QjtJQStEUSx5QkFBYTtJQUNiLHlCQUFvQixFQUFBO0VBaEU1QjtNQWtFVSw4Q0FBcUI7TUFDckIsZ0RBQXVCO01BQ3ZCLGtCQUFrQixFQUFBO0VBcEU1QjtNQXVFVSxlQUFlO01BQ2YsNkJBQTZCO01BQzdCLHFCQUFxQixFQUFBO0VBekUvQjtJQTZFUSxrQkFBa0I7SUFDbEIsV0FBVztJQUNYLGVBQWUsRUFBQTtFQS9FdkI7TUFpRlUsWUFBWTtNQUNaLHNDQUFhO01BQ2IsVUFBVTtNQUNWLGtCQUFhO01BQ2IscUJBQWdCO01BQ2hCLDZCQUE2QjtNQUM3QixlQUFlLEVBQUE7RUF2RnpCO0lBK0ZjLFdBQVc7SUFDWCxXQUFXO0lBQ1gsaUJBQWlCLEVBQUE7RUFqRy9CO0lBcUdZLGtCQUFrQixFQUFBO0VBckc5QjtJQXdHWSxtQkFBbUIsRUFBQTtFQXhHL0I7SUEyR1ksNkJBQTZCO0lBQzdCLGVBQWU7SUFDZixrQkFBa0I7SUFDbEIsWUFBWSxFQUFBO0VBOUd4QjtJQXNIYyw0QkFBNEIsRUFBQTtFQXRIMUM7SUEySGMsNkJBQTZCLEVBQUE7RUEzSDNDO0lBK0hZLFlBQVk7SUFDWixXQUFXO0lBQ1gsMkJBQTJCLEVBQUE7RUFqSXZDO01BbUljLGVBQWU7TUFDZixxQkFBcUIsRUFBQTtFQXBJbkM7SUF3SVksaUJBQWlCO0lBQ2pCLGtCQUFrQixFQUFBO0VBTTFCO0VBQ0Usa0JBQWtCO0VBQ2xCLFNBQVM7RUFDVCxTQUFTO0VBQ1QsT0FBTyxFQUFBO0VBRVQ7RUFFRSxZQUFZO0VBQ1osYUFBYTtFQUNiLGNBQWM7RUFDZCxjQUFjO0VBQ2QsaUJBQWdCLEVBQUE7RUFJbEI7RUFDRSxjQUFjLEVBQUE7RUFFaEI7RUFDRSxhQUFZLEVBQUEiLCJmaWxlIjoic3JjL2FwcC95ZXNnZW5pZS9QYWdlcy9zaWduLXVwL3NpZ24tdXAucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLy8gaW9uLWNvbnRlbnR7XG4vLyAgIC0tYmFja2dyb3VuZDogdXJsKC4uLy4uLy4uLy4uL2Fzc2V0cy9jcmVhdC1hY2NvdW50LnBuZyluby1yZXBlYXQgZml4ZWQ7XG4vLyAgIGJhY2tncm91bmQtc2l6ZTogY292ZXI7XG4vLyAgIGJhY2tncm91bmQtcmVwZWF0OiBuby1yZXBlYXQ7XG4vLyAgIGJhY2tncm91bmQtcG9zaXRpb246IGNlbnRlcjtcblxuLy8gfVxuXG5cbi50aGFua3lvdS1jb250ZW50IHtcbiAgIC0tYmFja2dyb3VuZDogdXJsKC4uLy4uLy4uLy4uL2Fzc2V0cy9sb2dpbi1pbWcucG5nKSBuby1yZXBlYXQgY2VudGVyIGNlbnRlciBmaXhlZDtcbiAgICAgIHdpZHRoOiAxMDAlO1xuICAgICAgYmFja2dyb3VuZC1zaXplOiBjb3ZlcjtcblxuICAgICAgLmhlYWRlci1jYXJkIHtcbiAgICAgICAgbWFyZ2luOiAwO1xuICAgICAgICBib3JkZXItYm90dG9tLWxlZnQtcmFkaXVzOiA0MHB4O1xuICAgICAgICBib3JkZXItYm90dG9tLXJpZ2h0LXJhZGl1czogNDBweDtcbiAgICAgICAgLmhlYWRlci1jb250ZW50IHtcbiAgICAgICAgICB3aWR0aDogMTAwJTtcbiAgICAgICAgICBtYXJnaW4tdG9wOiAtMjVweDtcbiAgICAgICAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gICAgICAgICAgaW9uLWF2YXRhciB7XG4gICAgICAgICAgICBtYXJnaW4tbGVmdDogYXV0bztcbiAgICAgICAgICAgIG1hcmdpbi1yaWdodDogYXV0bztcbiAgICAgICAgICAgIGJhY2tncm91bmQ6IHdoaXRlO1xuICAgICAgICAgICAgZGl2IHtcbiAgICAgICAgICAgICAgaW9uLWljb24ge1xuICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogNTBweDtcbiAgICAgICAgICAgICAgICBtYXJnaW4tdG9wOiAxMHB4O1xuICAgICAgICAgICAgICB9XG4gICAgICAgICAgICB9XG4gICAgICAgICAgfVxuICAgICAgICAgIGgyIHtcbiAgICAgICAgZm9udC1zaXplOiAyNHB4O1xuICAgICAgICBmb250LWZhbWlseTogc2Fucy1zZXJpZjtcbiAgICAgICAgdGV4dC1hbGlnbjogY2VudGVyO1xuICAgICAgICBtYXJnaW4tdG9wOiA1cHg7IFxuICAgICAgICBjb2xvcjogIzE2NTk5MjtcbiAgICAgICAgICB9XG4gICAgICAgIH1cbiAgICAgIH1cbiAgICAgIC5saXN0IHtcbiAgICAgICAgbWFyZ2luLWxlZnQ6IDE2cHg7XG4gICAgICAgIG1hcmdpbi1yaWdodDogMTZweDtcbiAgICAgICAgYmFja2dyb3VuZDogdHJhbnNwYXJlbnQgIWltcG9ydGFudDtcbiAgICAgICAgcGFkZGluZy10b3A6IHB4O1xuICAgICAgICBwYWRkaW5nLWJvdHRvbTogMDtcbiAgICAgICAgaW9uLWl0ZW0ge1xuICAgICAgICAgIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgICAgICAgICBib3JkZXItcmFkaXVzOiAxMHB4O1xuICAgICAgICAgIGJvcmRlcjogc29saWQgMXB4ICNmM2VkZWE7XG4gICAgICAgICAgLS1iYWNrZ3JvdW5kOiB3aGl0ZTtcbiAgICAgICAgICBtYXJnaW4tYm90dG9tOiAxMHB4O1xuICAgICAgICAgIGlvbi1pbnB1dCB7XG4gICAgICAgICAgICAtLXBsYWNlaG9sZGVyLWNvbG9yOiB2YXIoLS1pb24tY29sb3ItcHJpbWFyeSk7XG4gICAgICAgICAgICAtLXBsYWNlaG9sZGVyLW9wYWNpdHk6IDE7XG4gICAgICAgICAgfVxuICAgICAgICAgIGlvbi1pY29uIHtcbiAgICAgICAgICAgIGZvbnQtc2l6ZTogMTdweDtcbiAgICAgICAgICAgIGNvbG9yOiBibGFjaztcbiAgICAgICAgICB9XG4gICAgICAgICAgcCB7XG4gICAgICAgICAgICBmb250LXNpemU6IDE2cHg7XG4gICAgICAgICAgICBmb250LWZhbWlseTogXCJyb2JvdG8tcmVndWxhclwiO1xuICAgICAgICAgICAgbWFyZ2luLXRvcDogYXV0bztcbiAgICAgICAgICAgIG1hcmdpbi1ib3R0b206IGF1dG87XG4gICAgICAgICAgICBjb2xvcjogYmxhY2s7XG4gICAgICAgICAgfVxuICAgICAgICB9XG4gICAgICB9XG4gICAgICAuaXRlbS1jaGVja2JveCB7XG4gICAgICAgIC0tYmFja2dyb3VuZDogdHJhbnNwYXJlbnQ7XG4gICAgICAgIC0taW5uZXItcGFkZGluZy1lbmQ6IDcwcHg7XG4gICAgICAgIGlvbi1jaGVja2JveCB7XG4gICAgICAgICAgLS1iYWNrZ3JvdW5kLWNoZWNrZWQ6IHZhcigtLWlvbi1jb2xvci1wcmltYXJ5KTtcbiAgICAgICAgICAtLWJvcmRlci1jb2xvci1jaGVja2VkOiB2YXIoLS1pb24tY29sb3ItcHJpbWFyeSk7XG4gICAgICAgICAgbWFyZ2luLXJpZ2h0OiAxNXB4O1xuICAgICAgICB9XG4gICAgICAgIGlvbi1sYWJlbCB7XG4gICAgICAgICAgZm9udC1zaXplOiAxMnB4O1xuICAgICAgICAgIGZvbnQtZmFtaWx5OiBcInJvYm90by1yZWd1bGFyXCI7XG4gICAgICAgICAgd2hpdGUtc3BhY2U6IHByZS13cmFwO1xuICAgICAgICB9XG4gICAgICB9XG4gICAgICAuYnRuLWRpdiB7XG4gICAgICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgICAgICAgd2lkdGg6IDEwMCU7XG4gICAgICAgIG1hcmdpbi10b3A6IDVweDtcbiAgICAgICAgaW9uLWJ1dHRvbiB7XG4gICAgICAgICAgaGVpZ2h0OiA0MnB4O1xuICAgICAgICAgIC0tYmFja2dyb3VuZDogdmFyKC0taW9uLWNvbG9yLXByaW1hcnkpO1xuICAgICAgICAgIHdpZHRoOiA0NSU7XG4gICAgICAgICAgLS1ib3gtc2hhZG93OiBub25lO1xuICAgICAgICAgIC0tYm9yZGVyLXJhZGl1czogMjBweDtcbiAgICAgICAgICBmb250LWZhbWlseTogXCJyb2JvdG8tcmVndWxhclwiO1xuICAgICAgICAgIGZvbnQtc2l6ZTogMTNweDtcbiAgICAgICAgfVxuICAgICAgfVxuICAgICAgLmdyaWQtb3Ige1xuICAgICAgICBpb24tY29sIHtcbiAgICAgICAgICAmOmZpcnN0LWNoaWxkLFxuICAgICAgICAgICY6bGFzdC1jaGlsZCB7XG4gICAgICAgICAgICBkaXYge1xuICAgICAgICAgICAgICBoZWlnaHQ6IDFweDtcbiAgICAgICAgICAgICAgd2lkdGg6IDEwMCU7XG4gICAgICAgICAgICAgIGJhY2tncm91bmQ6IGJsYWNrO1xuICAgICAgICAgICAgfVxuICAgICAgICAgIH1cbiAgICAgICAgICAmOmZpcnN0LWNoaWxkIHtcbiAgICAgICAgICAgIHBhZGRpbmctbGVmdDogMjVweDtcbiAgICAgICAgICB9XG4gICAgICAgICAgJjpsYXN0LWNoaWxkIHtcbiAgICAgICAgICAgIHBhZGRpbmctcmlnaHQ6IDI1cHg7XG4gICAgICAgICAgfVxuICAgICAgICAgIHAge1xuICAgICAgICAgICAgZm9udC1mYW1pbHk6IFwicm9ib3RvLXJlZ3VsYXJcIjtcbiAgICAgICAgICAgIGZvbnQtc2l6ZTogMTBweDtcbiAgICAgICAgICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgICAgICAgICAgIGNvbG9yOiBibGFjaztcbiAgICAgICAgICB9XG4gICAgICAgIH1cbiAgICAgIH1cbiAgICAgIC5ncmlkLWljb25zIHtcbiAgICAgICAgaW9uLWNvbCB7XG4gICAgICAgICAgJjpmaXJzdC1jaGlsZCB7XG4gICAgICAgICAgICBpb24tYXZhdGFyIHtcbiAgICAgICAgICAgICAgbWFyZ2luLWxlZnQ6IGF1dG8gIWltcG9ydGFudDtcbiAgICAgICAgICAgIH1cbiAgICAgICAgICB9XG4gICAgICAgICAgJjpsYXN0LWNoaWxkIHtcbiAgICAgICAgICAgIGlvbi1hdmF0YXIge1xuICAgICAgICAgICAgICBtYXJnaW4tcmlnaHQ6IGF1dG8gIWltcG9ydGFudDtcbiAgICAgICAgICAgIH1cbiAgICAgICAgICB9XG4gICAgICAgICAgaW9uLWF2YXRhciB7XG4gICAgICAgICAgICBoZWlnaHQ6IDQ2cHg7XG4gICAgICAgICAgICB3aWR0aDogNDZweDtcbiAgICAgICAgICAgIGJvcmRlcjogc29saWQgbGlnaHRncmF5IDFweDtcbiAgICAgICAgICAgIGlvbi1pY29uIHtcbiAgICAgICAgICAgICAgZm9udC1zaXplOiAyMHB4O1xuICAgICAgICAgICAgICBtYXJnaW46IDEycHggMCAwIDEycHg7XG4gICAgICAgICAgICB9XG4gICAgICAgICAgfVxuICAgICAgICAgIC5hdmF0YXItY2VudGVyIHtcbiAgICAgICAgICAgIG1hcmdpbi1sZWZ0OiBhdXRvO1xuICAgICAgICAgICAgbWFyZ2luLXJpZ2h0OiBhdXRvO1xuICAgICAgICAgIH1cbiAgICAgICAgfVxuICAgICAgfVxuICAgIH1cbiAgXG4gICAgLmVkaXQtaW1ne1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgbGVmdDogNTUlO1xuICAgICAgd2lkdGg6IDklO1xuICAgICAgdG9wOiA5JTtcbiAgICB9XG4gICAgLkxvZ2luTG9nb3tcblxuICAgICAgd2lkdGg6IDIwMHB4O1xuICAgICAgaGVpZ2h0OiAxMzBweDtcbiAgICAgIGRpc3BsYXk6IGJsb2NrO1xuICAgICAgbWFyZ2luOiAwIGF1dG87XG4gICAgICBwYWRkaW5nLXRvcDo2MHB4O1xuICBcbiAgICB9XG5cbiAgICAuZGlzcGxheXtcbiAgICAgIGRpc3BsYXk6IGJsb2NrO1xuICAgIH1cbiAgICAubm9kaXNwbGF5e1xuICAgICAgZGlzcGxheTpub25lO1xuICAgIH0iXX0= */"
 
 /***/ }),
 

@@ -106,8 +106,8 @@
     },
     "is_top_level": true,
     "variables": {
-      "APP_ID": "1228036394319863",
-      "APP_NAME": "yesgenie"
+      "APP_ID": "1869648349864315",
+      "APP_NAME": "YesGenie"
     }
   },
   "cordova-plugin-admob-free": {

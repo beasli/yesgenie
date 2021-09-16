@@ -347,6 +347,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
+      "id": "cordova-plugin-market.Market",
+      "file": "plugins/cordova-plugin-market/www/market.js",
+      "pluginId": "cordova-plugin-market",
+      "clobbers": [
+        "cordova.plugins.market"
+      ]
+    },
+    {
       "id": "cordova-plugin-nativegeocoder.NativeGeocoder",
       "file": "plugins/cordova-plugin-nativegeocoder/www/NativeGeocoder.js",
       "pluginId": "cordova-plugin-nativegeocoder",
@@ -399,14 +407,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "YoutubeVideoPlayer"
       ]
-    },
-    {
-      "id": "cordova-plugin-market.Market",
-      "file": "plugins/cordova-plugin-market/www/market.js",
-      "pluginId": "cordova-plugin-market",
-      "clobbers": [
-        "cordova.plugins.market"
-      ]
     }
   ];
   module.exports.metadata = {
@@ -418,7 +418,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-admob-free": "0.27.0",
     "cordova-plugin-file": "6.0.2",
     "cordova-plugin-advanced-http": "2.3.1",
-    "cordova-plugin-androidx": "3.0.0",
     "cordova-plugin-androidx-adapter": "1.1.3",
     "cordova-plugin-cocoapod-support": "1.6.2",
     "cordova-plugin-device": "2.0.2",
@@ -428,6 +427,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-inappbrowser": "3.2.0",
     "cordova-plugin-ionic-keyboard": "2.2.0",
     "cordova-plugin-ionic-webview": "3.1.2",
+    "cordova-plugin-market": "1.2.0",
     "cordova-plugin-nativegeocoder": "3.4.1",
     "cordova-plugin-splashscreen": "5.0.2",
     "cordova-plugin-statusbar": "2.4.2",
@@ -435,7 +435,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-whitelist": "1.3.4",
     "es6-promise-plugin": "4.2.2",
     "cordova-plugin-x-socialsharing": "6.0.2",
-    "cordova-plugin-youtube-video-player": "2.3.0",
-    "cordova-plugin-market": "1.2.0"
+    "cordova-plugin-youtube-video-player": "2.3.0"
   };
 });

@@ -1,35 +1,7 @@
 {
-  "_args": [
-    [
-      "cordova-plugin-facebook4@6.2.0",
-      "/Users/vicky/Desktop/yes-2"
-    ]
-  ],
-  "_from": "cordova-plugin-facebook4@6.2.0",
-  "_id": "cordova-plugin-facebook4@6.2.0",
-  "_inBundle": false,
-  "_integrity": "sha512-PDqm4Qzi126RwD23aIgefuHui2UQic0Y0ApDcC3OLy5D6QMuFlirgzwqycJeB35B4I8cj/7EdKoyDLj1AiTJ2Q==",
-  "_location": "/cordova-plugin-facebook4",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "version",
-    "registry": true,
-    "raw": "cordova-plugin-facebook4@6.2.0",
-    "name": "cordova-plugin-facebook4",
-    "escapedName": "cordova-plugin-facebook4",
-    "rawSpec": "6.2.0",
-    "saveSpec": null,
-    "fetchSpec": "6.2.0"
-  },
-  "_requiredBy": [
-    "/"
-  ],
-  "_resolved": "https://registry.npmjs.org/cordova-plugin-facebook4/-/cordova-plugin-facebook4-6.2.0.tgz",
-  "_spec": "6.2.0",
-  "_where": "/Users/vicky/Desktop/yes-2",
-  "bugs": {
-    "url": "https://github.com/jeduan/cordova-plugin-facebook4/issues"
-  },
+  "name": "cordova-plugin-facebook4",
+  "version": "6.4.0",
+  "description": "Cordova Facebook SDK 4 Plugin",
   "cordova": {
     "id": "cordova-plugin-facebook4",
     "platforms": [
@@ -38,8 +10,10 @@
       "browser"
     ]
   },
-  "description": "Cordova Facebook SDK 4 Plugin",
-  "homepage": "https://github.com/jeduan/cordova-plugin-facebook4#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jeduan/cordova-plugin-facebook4"
+  },
   "keywords": [
     "cordova",
     "facebook",
@@ -51,11 +25,5 @@
     "social",
     "sharing"
   ],
-  "license": "Apache-2.0",
-  "name": "cordova-plugin-facebook4",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jeduan/cordova-plugin-facebook4.git"
-  },
-  "version": "6.2.0"
+  "license": "Apache-2.0"
 }

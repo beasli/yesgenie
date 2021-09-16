@@ -21,9 +21,6 @@
       "OKHTTP_VERSION": "3.10.0",
       "PACKAGE_NAME": "yesgenie.app.com"
     },
-    "cordova-plugin-androidx": {
-      "PACKAGE_NAME": "yesgenie.app.com"
-    },
     "cordova-plugin-androidx-adapter": {
       "PACKAGE_NAME": "yesgenie.app.com"
     },
@@ -54,6 +51,9 @@
       "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+",
       "PACKAGE_NAME": "yesgenie.app.com"
     },
+    "cordova-plugin-market": {
+      "PACKAGE_NAME": "yesgenie.app.com"
+    },
     "cordova-plugin-nativegeocoder": {
       "PACKAGE_NAME": "yesgenie.app.com"
     },
@@ -73,9 +73,6 @@
       "PACKAGE_NAME": "yesgenie.app.com"
     },
     "cordova-plugin-youtube-video-player": {
-      "PACKAGE_NAME": "yesgenie.app.com"
-    },
-    "cordova-plugin-market": {
       "PACKAGE_NAME": "yesgenie.app.com"
     }
   },
