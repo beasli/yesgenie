@@ -17,15 +17,24 @@
 </ion-header>
 <ion-content (pinch)="pinchEvent($event)" class="content">
 
+  <ion-card>
+    <ion-card-content class="card-address">
+     <h2>SUBHA PAL</h2>
+     <h5>23/A Sahapur colony, New Alipore Sahapur, New Alipore Kolkata, West Bengal 700053 </h5>
+     <h5>9860234123</h5>
 
-  <ion-item class="itemaddress">
+     <ion-button expand="full" (click)="changeAddress()">Change Address</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- <ion-item class="itemaddress">
     <ion-label position="floating">Select Address</ion-label>
     <ion-select class="seloption ionselectborder" (ionChange)="Getshippingaddressbyid($event.detail.value)">
       <ion-select-option *ngFor="let a of resMultipleAdd" value={{a.id}}>{{a.address_detail}}</ion-select-option>
     </ion-select> 
-  </ion-item>
+  </ion-item> -->
 
-       <p>Shipping Address</p>
+       <!-- <p>Shipping Address</p>
 
   <form class="form" [formGroup]="updatePro">
 
@@ -33,11 +42,6 @@
       <ion-label position="floating">Name</ion-label>
       <ion-input formControlName="shipping_first_name" type="text" value={{responseDatainfo?.username}}></ion-input>
     </ion-item>
-
-    <!-- <ion-item>
-      <ion-label position="floating">{{'Last Name'|translate}}</ion-label>
-      <ion-input formControlName="shipping_last_name" type="text" name="shipping_lastname" value={{responseDatainfo?.shipping_last_name}} ></ion-input>
-    </ion-item> -->
 
     <ion-item>
       <ion-label position="floating">Email</ion-label>
@@ -48,11 +52,6 @@
       <ion-label position="floating">Phone</ion-label>
       <ion-input formControlName="shipping_phone_number" type="text" value={{responseDatainfo?.phone_number}} ></ion-input>
     </ion-item>
-
-    <!-- <ion-item>
-      <ion-label position="floating">{{'Compnay'|translate}}</ion-label>
-      <ion-input type="text" name="company" value={{responseDatainfo?.username}} required></ion-input>
-    </ion-item> -->
 
     <ion-item>
       <ion-label position="floating">{{'Address'|translate}} 1</ion-label>
@@ -73,7 +72,6 @@
 
     <ion-item>
        <ion-label position="floating">{{'State'|translate}}</ion-label>
-      <!-- <ion-input formControlName="shipping_state" type="text" value={{responseDatainfo?.shipping_state}} ></ion-input> -->
 
       <ion-select formControlName="shipping_state" value={{responseDatainfo?.shipping_state}} class="seloption ionselectborder">
         <ion-select-option value="delhi">Delhi</ion-select-option>
@@ -92,7 +90,7 @@
       <ion-input formControlName="shipping_zip_code" type="text" value={{responseDatainfo?.shipping_zip_code}} ></ion-input>
     </ion-item>
 
-   </form>
+   </form> -->
 
 
 
@@ -108,13 +106,7 @@
       <ion-input name="shipping_firstname" type="text" [(ngModel)]="billing.shipping_first_name" required ></ion-input>
     </ion-item>
 
-    <!-- <ion-item>
-      <ion-label position="floating">{{'Last Name'|translate}}</ion-label>
-      <ion-input formControlName="shipping_last_name" type="text" name="shipping_lastname" value={{responseDatainfo?.shipping_last_name}} ></ion-input>
-    </ion-item> -->
-
-
-    <ion-item>
+      <ion-item>
       <ion-label position="floating">Email</ion-label>
       <ion-input type="text" name="shipping_firstname" [(ngModel)]="billing.shipping_email" required ></ion-input>
     </ion-item>
@@ -124,11 +116,6 @@
       <ion-label position="floating">Phone</ion-label>
       <ion-input name="shipping_firstname" type="text" [(ngModel)]="billing.shipping_phone_number" required></ion-input>
     </ion-item>
-
-    <!-- <ion-item>
-      <ion-label position="floating">{{'Compnay'|translate}}</ion-label>
-      <ion-input type="text" name="company" value={{responseDatainfo?.username}} required></ion-input>
-    </ion-item> -->
 
     <ion-item>
       <ion-label position="floating">{{'Address'|translate}} 1</ion-label>
@@ -145,13 +132,11 @@
       <ion-select [(ngModel)]="billing.shipping_country_id" name="shipping_firstname" class="seloption ionselectborder" required>
         <ion-select-option value="101">India</ion-select-option>
        </ion-select> 
-       <!-- <ion-input formControlName="shipping_country_id" type="text" value="India" readonly></ion-input> -->
     </ion-item>
 
     <ion-item>
       <ion-label position="floating">{{'State'|translate}}</ion-label>
       <ion-input type="text" name="shipping_firstname" [(ngModel)]="billing.shipping_state" required></ion-input> 
-       <!-- <ion-input formControlName="shipping_state" type="text" value="Delhi" readonly></ion-input> -->
          </ion-item>
 
     <ion-item>

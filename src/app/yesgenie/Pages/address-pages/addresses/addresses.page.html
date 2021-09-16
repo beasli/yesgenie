@@ -21,46 +21,46 @@
   </p> -->
 
   <form class="form" [formGroup]="updatePro">
-
+<!-- 
     <ion-item>
       <ion-label position="floating">Address Location</ion-label>
       <ion-input formControlName="address_detail" type="text"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="floating">Name</ion-label>
-      <ion-input  formControlName="shipping_first_name" value={{responseDatainfo?.username}} type="text"></ion-input>
-    </ion-item>
-
-    <!-- <ion-item>
-      <ion-label position="floating">{{'Last Name'|translate}}</ion-label>
-      <ion-input formControlName="shipping_last_name" value="" type="text" name="shipping_last_name"></ion-input>
     </ion-item> -->
 
     <ion-item>
-      <ion-label position="floating">Email</ion-label>
-      <ion-input formControlName="shipping_email" value={{responseDatainfo?.email}}  type="text"></ion-input>
+      <ion-label position="floating">First Name</ion-label>
+      <ion-input  formControlName="fname" value={{responseDatainfo?.fname}} type="text"></ion-input>
     </ion-item>
 
     <ion-item>
+      <ion-label position="floating">{{'Last Name'|translate}}</ion-label>
+      <ion-input formControlName="lname" value={{responseDatainfo?.lname}} type="text"></ion-input>
+    </ion-item>
+
+    <!-- <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input formControlName="shipping_email" value={{responseDatainfo?.email}}  type="text"></ion-input>
+    </ion-item> -->
+
+    <ion-item>
       <ion-label position="floating">Phone Number</ion-label>
-      <ion-input formControlName="shipping_phone_number" value={{responseDatainfo?.phone_number}} type="Number"></ion-input>
+      <ion-input formControlName="phone_number" value={{responseDatainfo?.phone_number}} type="Number"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="floating">Address 1</ion-label>
-      <ion-input formControlName="shipping_address_1" type="text"></ion-input>
+      <ion-input formControlName="address" type="text"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="floating">Address 2 (Optional)</ion-label>
-      <ion-input formControlName="shipping_address_2" type="text"></ion-input>
+      <ion-input formControlName="address_2" type="text"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="floating">{{'Country'|translate}}</ion-label>
       <!-- <ion-input formControlName="shipping_country_id" type="text" name="shipping_country_id" value="India" readonly></ion-input> -->
-      <ion-select formControlName="shipping_country_id" class="seloption ionselectborder">
+      <ion-select formControlName="country_id" class="seloption ionselectborder">
         <ion-select-option value="India">India</ion-select-option>
        </ion-select> 
     </ion-item>
@@ -70,7 +70,7 @@
         <ion-label position="floating">{{'State'|translate}}</ion-label>
        <!-- <ion-input formControlName="shipping_state" type="text" value={{responseDatainfo?.shipping_state}} ></ion-input> -->
   
-       <ion-select formControlName="shipping_state"  class="seloption ionselectborder">
+       <ion-select formControlName="state_id"  class="seloption ionselectborder">
          <ion-select-option value="delhi">Delhi</ion-select-option>
          <ion-select-option value="haryana">Haryana</ion-select-option>
          <ion-select-option value="UP">Uttar Pradesh</ion-select-option>
@@ -79,15 +79,15 @@
 
 
     <ion-item>
-      <ion-label position="floating">Place</ion-label>
+      <ion-label position="floating">City</ion-label>
       
-       <ion-input formControlName="shipping_city" type="text"></ion-input>
+       <ion-input formControlName="city" type="text"></ion-input>
 
        </ion-item>
 
     <ion-item>
       <ion-label position="floating">Zip Code</ion-label>
-      <ion-input formControlName="shipping_zip_code" type="Number" name="shipping_zip_code"></ion-input>
+      <ion-input formControlName="zip_code" type="Number" name="zip_code"></ion-input>
     </ion-item>
   </form>
   <ion-button expand="full" type="submit" [disabled]="!updatePro.valid" (click)="Addnewmultipleshippingaddress()">

@@ -101,7 +101,10 @@ export class ShippingAddressPage implements OnInit {
       
   }
 
-
+  changeAddress(){
+    
+    this.nav.navigateForward("multiple-shipping-address");  
+  }
 
   
   ionViewWillEnter() {

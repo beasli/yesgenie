@@ -44,12 +44,16 @@ export class CartPage implements OnInit {
 
   product_price_afterDiscount: any;
 
+  deliveryCharges = 5000;
+
   products = [];
 
   value = 0;
   public translationListArray = [];
   orders = [{ subTotal: "100.00", discount: "0.00", total: "100.00" }]
   tax: any;
+
+  product_price_afterDeliveryChargeApply : any;
   
   constructor(public shared: SharedDataService,
     public config: ConfigService,
@@ -68,6 +72,7 @@ export class CartPage implements OnInit {
 
   ionViewWillEnter() {
 
+    this.deliveryCharges = 5000;
     this.updateCart();
 
     const userDetails = localStorage.getItem('userdata');
@@ -108,8 +113,14 @@ export class CartPage implements OnInit {
       this.coupontype = this.responseData.coupon.discount_name;
       this.TotalDiscount = this.responseData.coupon.coupon_amount * 100;
       this.product_price_afterDiscount = this.product_total_price - parseFloat(this.TotalDiscount);
-
-     }
+      if(this.product_price_afterDiscount*1 /100*1 < 699 || this.product_price_afterDiscount*1 /100*1 == 699){
+        this.product_price_afterDeliveryChargeApply = this.product_price_afterDiscount + this.deliveryCharges;
+      }
+      else{
+        this.product_price_afterDeliveryChargeApply = this.product_price_afterDiscount;
+      }
+      console.log(this.product_price_afterDeliveryChargeApply);
+    }
 
     console.log(this.responseData);
    this.presentToast('Coupon Applied Successfully');
@@ -137,6 +148,7 @@ export class CartPage implements OnInit {
     // this.shared.couponArray.forEach((value) => {
     //   this.products = this.couponProvider.apply(value, this.shared.cartProducts);
     // });
+   
 
     this.totalPrice();
     this.applicationRef.tick();
@@ -157,20 +169,63 @@ export class CartPage implements OnInit {
     this.product_total_price = price;
     this.tax = totaltax;
     console.log(this.tax);
-if(this.coupontype == "Percentage"){
+  if(this.coupontype == "Percentage"){
     if(this.TotalDiscount != 0) {
-    this.product_price_afterDiscount = this.product_total_price - parseFloat(this.product_total_price) * this.DiscountPercentage/100;
+      this.product_price_afterDiscount = this.product_total_price - parseFloat(this.product_total_price) * this.DiscountPercentage/100;
+      if(this.product_price_afterDiscount*1 /100*1 < 699 || this.product_price_afterDiscount*1 /100*1 == 699){
+        this.deliveryCharges = 5000;
+        this.product_price_afterDeliveryChargeApply = this.product_price_afterDiscount + this.deliveryCharges;
+      }
+      else{
+        this.deliveryCharges = 0;
+        this.product_price_afterDeliveryChargeApply = this.product_price_afterDiscount;
+      }
     } else {
-    this.product_price_afterDiscount = this.product_total_price;
+      this.product_price_afterDiscount = this.product_total_price;
+      if(this.product_price_afterDiscount*1 /100*1 < 699 || this.product_price_afterDiscount*1 /100*1 == 699){
+        this.deliveryCharges = 5000;
+        this.product_price_afterDeliveryChargeApply = this.product_price_afterDiscount + this.deliveryCharges;
+      }
+      else{
+        this.deliveryCharges = 0;
+        this.product_price_afterDeliveryChargeApply = this.product_price_afterDiscount;
+      }
     }
-  } else if(this.coupontype == "Fixed"){
+  } else if(this.coupontype == "Fixed")
+  {
     if(this.TotalDiscount != 0) {
       this.product_price_afterDiscount = this.product_total_price - parseFloat(this.TotalDiscount);
-      } else {
-      this.product_price_afterDiscount = this.product_total_price;
+
+      if(this.product_price_afterDiscount*1 /100*1 < 699 || this.product_price_afterDiscount*1 /100*1 == 699){
+        this.deliveryCharges = 5000;
+        this.product_price_afterDeliveryChargeApply = this.product_price_afterDiscount + this.deliveryCharges;
       }
+      else{
+        this.deliveryCharges = 0;
+        this.product_price_afterDeliveryChargeApply = this.product_price_afterDiscount;
+      }
+
+    } else {
+    this.product_price_afterDiscount = this.product_total_price;
+    if(this.product_price_afterDiscount*1 /100*1 < 699 || this.product_price_afterDiscount*1 /100*1 == 699){
+      this.deliveryCharges = 5000;
+      this.product_price_afterDeliveryChargeApply = this.product_price_afterDiscount + this.deliveryCharges;
+    }
+    else{
+      this.deliveryCharges = 0;
+      this.product_price_afterDeliveryChargeApply = this.product_price_afterDiscount;
+    }
+    }
   } else {
     this.product_price_afterDiscount = this.product_total_price;
+    if(this.product_price_afterDiscount*1 /100*1 < 699 || this.product_price_afterDiscount*1 /100*1 == 699){
+      this.deliveryCharges = 5000;
+      this.product_price_afterDeliveryChargeApply = this.product_price_afterDiscount + this.deliveryCharges;
+    }
+    else{
+      this.deliveryCharges = 0;
+      this.product_price_afterDeliveryChargeApply = this.product_price_afterDiscount;
+    }
   }
     // console.log(price);
   }
@@ -190,10 +245,11 @@ if(this.coupontype == "Percentage"){
 
 
 
-updateCart(){
-  console.log('update cart')
-  this.changingCart();
-}
+  updateCart(){
+    console.log('update cart')
+
+    this.changingCart();
+  }
 
 
 
@@ -207,6 +263,15 @@ async proceedToCheckOut() {
   else {
     // <!-- 2.0 updates -->
     this.storage.set('totalpriceafterdisc', this.product_price_afterDiscount);
+
+    if(this.product_price_afterDiscount*1 /100*1 < 699 || this.product_price_afterDiscount*1 /100*1 == 699){
+      this.deliveryCharges = 5000;
+      this.storage.set('totalShippingCharge', this.deliveryCharges);
+    }
+    else{
+      this.deliveryCharges = 0;
+      this.storage.set('totalShippingCharge', this.deliveryCharges);
+    }
     this.storage.set('totaldiscount', this.TotalDiscount);
     this.nav.navigateForward("bs-shipping-address");
   }

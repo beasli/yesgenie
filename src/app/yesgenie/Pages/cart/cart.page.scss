@@ -20,6 +20,19 @@ ion-header{
     }
 }
 ion-content{
+
+    .card-address{
+        padding-right: 10px;
+        color: black;
+    
+        h2{
+            font-weight: bolder;
+        }
+        h5{
+            margin-top: 10px;
+        }
+    }
+
     .grid-empty {
         margin-top: 50%;
         ion-row {

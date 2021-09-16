@@ -5,9 +5,7 @@
         <ion-icon slot="icon-only" src="assets/back.svg"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title class="ecom-title">
-      Multiple Shipping Address
-    </ion-title>
+    <ion-title class="ecom-title"> Multiple Shipping Address </ion-title>
 
     <ion-buttons slot="end">
       <ion-button fill="clear" (click)="opensearch()">
@@ -21,10 +19,8 @@
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content>
-
-  <ion-row style="border-bottom: groove;">
+  <!-- <ion-row style="border-bottom: groove;">
     <ion-col col-4>
     <ion-label ></ion-label>
   </ion-col>
@@ -34,32 +30,93 @@
     <ion-col col-4>
     <ion-button style="color: white;" (click)="AddNewAdress()">Add New</ion-button>
   </ion-col>
-</ion-row>
+</ion-row> -->
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="AddNewAdress()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <!-- <ion-row style="border-bottom: groove; background: #021841">
+    <ion-col col-6 style="left: 5px">
+      <ion-label style="color: white">Address Location</ion-label>
+    </ion-col>
+    <ion-col col-6>
+      <ion-label style="color: white">Edit</ion-label>
+    </ion-col>
+  </ion-row>
+
+  <ion-row style="border-bottom: groove" *ngFor="let address of resMultipleAdd">
+    <ion-col col-6>
+      <ion-label>{{address.address_detail}}</ion-label>
+    </ion-col>
+    <ion-col col-6>
+      <ion-button (click)="onClickDetails(a.id)">Edit</ion-button>
+      <ion-button (click)="presentAlertPrompt(a.id, a.address_detail)"
+        >Delete</ion-button
+      >
+    </ion-col>
+  </ion-row> -->
 
 
-  <ion-row style="border-bottom: groove; background: #021841;">
-    <ion-col col-6 style="left: 5px;">
-    <ion-label style="color: white;">Address Location</ion-label>
-  </ion-col>
-  <!-- <ion-col col-4>
-    <ion-label style="color: white;">Contact</ion-label>
-  </ion-col> -->
-    <ion-col col-6>
-    <ion-label style="color: white;">Edit</ion-label>
-  </ion-col>
-</ion-row>
 
-<ion-row style="border-bottom: groove;" *ngFor="let a of resMultipleAdd">
-    <ion-col col-6>
-    <ion-label>{{a.address_detail}}</ion-label>
-  </ion-col>
-  <!-- <ion-col col-4>
-    <ion-label>{{a.shipping_phone_number}}</ion-label>
-  </ion-col> -->
-    <ion-col col-6>
-    <ion-button (click)="onClickDetails(a.id)">Edit</ion-button>
-    <ion-button (click)="presentAlertPrompt(a.id, a.address_detail)">Delete</ion-button>
-  </ion-col>
-</ion-row>
+  <ion-card class="card-address" *ngFor="let address of resMultipleAdd">
+    <ion-item>
+  
+      <ion-item-sliding>
+        <ion-item-options side="start">
+          <ion-item-option (click)="onClickDetails(address.id)">Edit</ion-item-option>
+        </ion-item-options>
+
+        <ion-item>
+          <ion-label>
+            <h2>{{address.shipping_first_name}} {{address?.shipping_last_name}}</h2>
+            <h5 style="white-space: initial;">
+              {{address.shipping_address_1}},
+              {{address.shipping_address_2}},
+              {{address.shipping_city}},
+              {{address.shipping_state}},
+              {{address.shipping_country_id}}
+            </h5>
+            <h5>{{address.shipping_phone_number}}</h5>
+          </ion-label>
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="presentAlertPrompt(address.id, address.address_detail)">Delete</ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-item>
+  </ion-card>
+
+  <!-- Static design -->
+
+  <!-- <ion-card class="card-address">
+    <ion-item>
+      <ion-item-sliding>
+        <ion-item-options side="start">
+          <ion-item-option (click)="onClickDetails(a.id)">Edit</ion-item-option>
+        </ion-item-options>
+
+        <ion-item>
+          <ion-label>
+            <h2>SUBHA PAL</h2>
+            <h5 style="white-space: initial;">
+              23/A Sahapur colony, New Alipore Sahapur, New Alipore Kolkata,
+              West Bengal 700053
+            </h5>
+            <h5>9860234123</h5>
+          </ion-label>
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="presentAlertPrompt(a.id, a.address_detail)">Delete</ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-item>
+  </ion-card> -->
+  
+  <!-- Static design -->
 
 </ion-content>

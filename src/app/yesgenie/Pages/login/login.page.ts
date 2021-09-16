@@ -340,7 +340,7 @@ export class LoginPage implements OnInit {
     this.authService.loginUser(this.formData).then(result => {
     this.responseData = result;
 
-    console.log(this.responseData)
+    console.log("LOgin ",result)
   //  this.data = JSON.parse(result["_body"]);
     if (this.responseData.status.code == 200) {
 
