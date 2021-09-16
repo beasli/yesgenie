@@ -57,6 +57,17 @@ ion-footer{
     display: none;
   }
 
+  .card-address{
+    color: black;
+
+    h2{
+        font-weight: bolder;
+    }
+    h5{
+        margin-top: 10px;
+    }
+  }
+
 
   ion-footer{
     --ion-color-secondary: #008000 !important;

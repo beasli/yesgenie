@@ -149,7 +149,7 @@ export class OrderPage implements OnInit {
     var price = 0;
     var subPrice = 0;
     var ShipingCost = 0;
-    console.log(this.services.cartProducts)
+    console.log("cartProducts..",this.services.cartProducts)
     for (let value of this.services.cartProducts) {
       subPrice = subPrice + value.product_total_price;
       price = price + value.product_total_price;
@@ -159,7 +159,13 @@ export class OrderPage implements OnInit {
     
     this.CalAllShipingcost = ShipingCost;
 
+    this.storage.get('totalShippingCharge').then((val) => {
+      this.CalAllShipingcost = val
+      console.log("totalShippingCharge VAL..",val);
+    });
+    
 
+    // console.log("shippingCharge..",this.services.shippingCharge)
     this.product_total_price = price.toFixed(2);
     // if(price < 100000) {
     //   this.CalAllShipingcost = 4000;
@@ -172,9 +178,11 @@ export class OrderPage implements OnInit {
    // this.totaltaxamount = totaltax.toFixed(2);
 
 
+
    setTimeout(()=>{ 
 
     this.storage.get('totalpriceafterdisc').then((val) => {
+     
       this.CalAllPrice = val;
       this.totalCartValue = this.CalAllPrice;
       this.totalAfterDiscShiping = parseFloat(this.CalAllShipingcost) + parseFloat(this.CalAllPrice);
@@ -184,7 +192,8 @@ export class OrderPage implements OnInit {
       if(this.totalAfterDiscShipingFixed < 200000){
         this.paymentMethods = ["Razorpay"];
       } else if(this.totalAfterDiscShipingFixed >= 200000){
-      this.paymentMethods = ["Razorpay", "Cash on delivery"];
+        this.paymentMethods = ["Razorpay"];
+      // this.paymentMethods = ["Razorpay", "Cash on delivery"];
       } else {
         this.paymentMethods = [""];
       }
@@ -208,7 +217,7 @@ export class OrderPage implements OnInit {
       description: 'Welcome to Yes Genie',
       image: 'https://www.yesgenie.com/uploads/logo/logo_5ef719c54807c.png',
       currency: 'INR', // your 3 letter currency code
-      key: 'rzp_live_7ylYejDIxSYzcD', // your Key Id from Razorpay dashboard
+      key: 'rzp_live_bqpVscreY18vrq', // your Key Id from Razorpay dashboard
       amount: this.totalAfterDiscShiping, // Payment amount in smallest denomiation e.g. cents for USD
       name: 'Yes Genie',
       prefill: {

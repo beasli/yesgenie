@@ -25,6 +25,8 @@ export class MultipleShippingAddressPage implements OnInit {
   resMultipleAdd: any;
   responseDeleteAddress: any;
 
+  id : any;
+
   constructor(public shared: SharedDataService,
     public modalCtrl: ModalController,
     public config: ConfigService,
@@ -40,10 +42,24 @@ export class MultipleShippingAddressPage implements OnInit {
       this.userdata = JSON.parse(userDetails);
   
       this.token = this.userdata.token;
-  
-      console.log(this.token);
-    
+      this.id = {
+        user_id: this.token
       }
+      console.log(this.token);
+      this.getAddressList();
+  }
+
+  getAddressList(){
+    this.services
+    .post('getaddress', this.id)
+    .then((response: any) => {
+      console.log("SHOW LIST",response);
+      // this.countryList = response['data'];
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
 
 
   ngOnInit() {
@@ -66,7 +82,7 @@ export class MultipleShippingAddressPage implements OnInit {
      this.services.Getmultipleshippingaddress(userData).then(result => {
      this.responseAddress = result;
      this.resMultipleAdd = this.responseAddress.response.shipping_address;
-     console.log(this.responseAddress);
+     console.log("Addresses..",this.responseAddress);
             
    }, error => {
   

@@ -27,8 +27,8 @@
 
   <div class="icons">
     <ion-icon name="share" (click)="share()"></ion-icon>
-    <!-- <ion-icon *ngIf="heart" name="heart" (click)="clickWishList()"></ion-icon>
-    <ion-icon *ngIf="!heart" name="heart-empty" (click)="clickWishList()"></ion-icon> -->
+    <ion-icon name="heart" (click)="addtoFav(responseData)" *ngIf="isLiked!==0"></ion-icon>
+    <ion-icon name="heart-empty" (click)="addtoFav(responseData)" *ngIf="isLiked==0"></ion-icon>
   </div>
   <ion-slides class="product-slides" pager="true">
     <ion-slide *ngFor="let img of responseDataImg">
@@ -231,20 +231,24 @@
   <ion-row>
 
     <ion-col size="6" style="padding: 0px 0px; padding-left: 0px;">
-      <ion-button color="secondary" (click)="addToCartProduct(responseData)" *ngIf="disableCartButton == false">
+      <ion-button color="secondary" (click)="addToCartProduct(responseData)">
         <ion-icon name="cart" style="margin-right: 10px;"></ion-icon>
         Add to cart
       </ion-button>
 
-      <ion-button color="secondary" (click)="goToCart()" *ngIf="disableCartButton == true">
+      <!-- <ion-button color="secondary" (click)="goToCart()" *ngIf="disableCartButton == true">
         <ion-icon name="cart" style="margin-right: 10px;"></ion-icon>
         Go to cart
-      </ion-button>
+      </ion-button> -->
     </ion-col>
 
     <ion-col size="6" style="padding: 0px 0px; padding-right: 0px;">
 
-      <ion-button (click)="addtoFav(responseData)" *ngIf="isLiked==0">
+      <ion-button color="primary" (click)="goToCart()">
+        <ion-icon name="cart" style="margin-right: 10px;"></ion-icon>
+        Go to cart
+      </ion-button>
+      <!-- <ion-button (click)="addtoFav(responseData)" *ngIf="isLiked==0">
         <ion-icon name="heart" style="margin-right: 10px;"></ion-icon>
         Add to Favorites
       </ion-button>
@@ -252,7 +256,7 @@
       <ion-button (click)="addtoFav(responseData)" *ngIf="isLiked!==0">
         <ion-icon name="heart" style="margin-right: 10px;"></ion-icon>
         Remove from Favorites
-      </ion-button>
+      </ion-button> -->
 
       <!-- <ion-icon class="icon" (click)="clickWishList()" *ngIf="isLiked==0" name="heart-empty"></ion-icon>
       <ion-icon class="icon" (click)="clickWishList()" *ngIf="isLiked!=0" name="heart"></ion-icon> -->
